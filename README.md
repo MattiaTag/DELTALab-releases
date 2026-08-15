@@ -39,6 +39,7 @@ data). Issues on this repository are also read.
 
 ## Verifying a download
 
-Release artifacts are signed. The updater verifies signatures automatically
-before installing; manual verification instructions will be added here once the
-signing pipeline is live.
+The signing and auto-update pipeline is still being set up, and no releases
+have been published yet. Once it is live, artifacts will be signed, the updater
+will verify signatures automatically before installing, and instructions for
+verifying a download by hand will be added here.
