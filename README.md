@@ -3,10 +3,6 @@
 Distribution point for **DELTALab**, a desktop application for processing and
 standardising clumped isotope data (δ¹³C, δ¹⁸O, Δ₄₇, Δ₄₈).
 
-This repository contains **no source code**. It exists to host built
-installers and the manifest the in-app updater reads. Development happens in a
-separate, private repository.
-
 ## Installing
 
 Download the build for your platform from the
@@ -76,13 +72,3 @@ a recovery point from immediately before an upgrade.
 Use the in-app **Contacts → Report a bug** form, which can attach a diagnostics
 bundle (app version, OS, table row counts, recent log tail — no measurement
 data). Issues on this repository are also read.
-
-## Code signing
-
-The installers are not signed with Apple or Microsoft certificates, which is
-why your system warns the first time you open DELTALab (see
-[Installing](#installing)).
-
-Updates are checked separately: the in-app updater verifies every update
-against a signing key built into DELTALab and will not install one that does
-not match.
