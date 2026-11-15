@@ -4,7 +4,7 @@
 data: Δ47, Δ48, δ13C and δ18O. It imports Thermo Isodat `.did` files, Qtegra CSV exports
 and legacy Easotope databases, and runs on macOS and Windows.
 
-- **Website, user guide and downloads:** <https://mattiatag.github.io/DELTALab-releases/>
+- **Website, user guide and downloads:** <https://deltalab.protiumms.com/>
 - **Latest release:** <https://github.com/MattiaTag/DELTALab-releases/releases/latest>
 - **All releases:** <https://github.com/MattiaTag/DELTALab-releases/releases>
 
