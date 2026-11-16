@@ -1,0 +1,2930 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Toolbar colour for browsers that read theme-color (Chrome/Edge/Firefox on Android):
+       the page background, since the black nav scrolls away. Safari 26 ignores it. -->
+  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+  <title>DELTALab user guide</title>
+  <meta name="description" content="DELTALab turns raw mass-spectrometer output into standardised Δ values and temperatures.">
+  <link rel="canonical" href="https://deltalab.protiumms.com/guide.html">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DELTALab user guide">
+  <meta property="og:description" content="DELTALab turns raw mass-spectrometer output into standardised Δ values and temperatures.">
+  <meta property="og:url" content="https://deltalab.protiumms.com/guide.html">
+  <meta property="og:site_name" content="DELTALab">
+  <meta property="og:image" content="https://deltalab.protiumms.com/social.png">
+  <meta property="og:image:alt" content="The DELTALab Explore page showing a Δ47 plot of standards and samples across a session.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="site.css?v=5ace37414c">
+</head>
+<body>
+  <header class="nav">
+    <a class="nav-logo" href="./"><img src="logo-lockup.svg" alt="DELTALab" width="95" height="24"></a>
+    <a class="nav-link" href="./#download">Download</a>
+    <a class="nav-link" href="guide.html" aria-current="page">User guide</a>
+    <span class="nav-version" id="nav-version" hidden></span>
+  </header>
+  <div class="column guide">
+    <nav class="chapters" aria-label="Chapters">
+      <details class="chapters-details" open>
+        <summary>Chapters</summary>
+        <ul>
+<li><a href="#1-key-words">1. Key words</a></li>
+<li><a href="#2-finding-your-way-around">2. Finding your way around</a></li>
+<li><a href="#3-importing-data">3. Importing data</a></li>
+<li><a href="#31-how-to-setup-qtegra-export">3.1 How to setup QTegra Export</a></li>
+<li><a href="#4-the-explore-page">4. The Explore page</a></li>
+<li><a href="#41-checking-raw-data-and-excluding-bad-measurements">4.1 Checking raw data and excluding bad measurements</a></li>
+<li><a href="#42-exporting-a-report">4.2 Exporting a report</a></li>
+<li><a href="#43-session-history">4.3 Session History</a></li>
+<li><a href="#44-the-traffic-light">4.4 The traffic light</a></li>
+<li><a href="#5-the-standardization-page">5. The Standardization page</a></li>
+<li><a href="#51-the-δ¹⁸o-acid-fractionation-correction">5.1 The δ¹⁸O acid fractionation correction</a></li>
+<li><a href="#6-the-sessions-editor">6. The Sessions Editor</a></li>
+<li><a href="#61-scans-and-the-pressure-baseline-correction">6.1 Scans and the pressure-baseline correction</a></li>
+<li><a href="#7-settings">7. Settings</a></li>
+<li><a href="#8-backups-restore-and-updates">8. Backups, restore and updates</a></li>
+</ul>
+      </details>
+    </nav>
+    <article class="guide-text">
+      <h1>DELTALab — User Guide</h1>
+      <p><strong>Who this is for:</strong> geochemists processing clumped and bulk stable-isotope data
+(δ¹³C, δ¹⁸O, Δ₄₇, Δ₄₈).</p>
+<p><strong>App version:</strong> 1.0.3 · <strong>Guide updated:</strong> 2026-11-13</p>
+<p>DELTALab turns raw mass-spectrometer output into standardised Δ values and
+temperatures. It corrects the background, puts your data on a reference frame and
+converts Δ to temperature. You get replicate and sample tables, diagnostic plots
+and exports you can use in a paper. The clumped-isotope maths gives the same
+numbers as D47crunch (Daëron 2021) and D47calib (Daëron &amp; Vermeesch 2024).</p>
+<p><strong>New to DELTALab?</strong> Read <a href="#1-key-words">chapter 1</a> (the seven key words). Come back to the other
+chapters when you need them.</p>
+<p><strong>How this guide is written:</strong></p>
+<ul>
+<li>Button and menu names are in <strong>bold</strong>, exactly as they appear in the app.</li>
+<li>"→" means "then click". For example, <strong>Contacts → Learning Routine</strong>.</li>
+<li>Every chapter stands on its own, so you can open any one of them directly.</li>
+</ul>
+<hr />
+<section class="chapter" id="1-key-words">
+<h2>1. Key words</h2>
+<p>DELTALab uses seven words everywhere.</p>
+<p><strong>Acquisition</strong> — One block of measurement cycles from the instrument. Each cycle records the sample and reference-gas beams at m/z 44–49 (plus the 47.5 half-mass, if your instrument has that cup). An acquisition is the smallest unit you import.</p>
+<p><strong>Replicate</strong> — One analysis of one sample. DELTALab joins back-to-back acquisitions of the same sample into one replicate. Standardisation, exclusion and temperature all work on replicates.</p>
+<p><strong>Sample</strong> — The material you analysed, known to DELTALab by its sample name. Replicates with exactly the same sample name are one sample, also when they are in different sessions. A sample is either a standard or an <strong>unknown</strong>, a sample you want a result for. In the app, <strong>Samples</strong> on its own (the summary bar, <strong>Filter to</strong>) means the unknowns only.</p>
+<p><strong>Session</strong> — A batch of replicates that you process together, usually one instrument run. A session has its own background correction, standardisation fit, reference gas, acid reaction temperature and mass spectrometer. Almost every screen works on a session or a group of sessions.</p>
+<p><strong>Standard (also: reference material)</strong> — A sample with an accepted value, such as ETH-1 to ETH-4, IAEA-C1/C2, equilibrated gases or an in-house carbonate. Their values live in <strong>Settings → Reference material</strong> (<a href="#7-settings">chapter 7</a>). A standard you use to constrain a fit is simply called a standard here.</p>
+<p><strong>Standardisation</strong> — Moving your raw Δ values (<code>Δ₄₇ raw</code>) onto a community reference frame (<code>Δ₄₇</code>, for example I-CDES). DELTALab does this by fitting a transfer function through your standards. The fit can also follow a slow drift over time. <strong>Bulk Standardization</strong> does the same for δ¹³C and δ¹⁸O.</p>
+<p><strong>Isotope system</strong> — What you are measuring: <strong>Clumped Isotopes</strong> (Δ₄₇) or <strong>Dual Clumped</strong> (Δ₄₇ and Δ₄₈). You choose it in the menu of the top bar (<a href="#2-finding-your-way-around">chapter 2</a>). It decides which tabs you see and which Δ you process.</p>
+<h3>Raw values are kept apart from results</h3>
+<p>The voltages of every cycle are stored at import and never changed. DELTALab
+calculates the raw values (<code>δ¹³C</code>, <code>δ¹⁸O</code>, <code>Δ₄₇ raw</code>, <code>Δ₄₈ raw</code>) from them.</p>
+<p>Standardisation, temperature conversion and the δ¹⁸O acid correction never overwrite a
+raw value. Each writes to its own columns, so you can run them again as often as you
+like without losing data.</p>
+<p>A raw value changes only when DELTALab calculates it again from the cycles:</p>
+<ul>
+<li>after a Negative Background Correction (<a href="#5-the-standardization-page">chapter 5</a>);</li>
+<li>when you exclude cycles or an acquisition
+  (<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>);</li>
+<li>when you change a session's reference gas (<a href="#6-the-sessions-editor">chapter 6</a>).</li>
+</ul>
+<p>Moving, renaming or deleting replicates does not change the raw value of any other
+replicate.</p>
+<p><code>Δ₄₇ raw</code> and the standardised <code>Δ₄₇</code> are separate columns. δ¹³C and δ¹⁸O have one
+column each in the Replicate list: it shows the standardised value once Bulk Standardization
+has run, and "—" until then. Choose <strong>raw</strong> in the column's header menu to see the raw value, or
+hover over a standardised δ¹³C or δ¹⁸O to see the raw value behind it.</p>
+<hr />
+</section>
+<section class="chapter" id="2-finding-your-way-around">
+<h2>2. Finding your way around</h2>
+<p><img loading="lazy" height="700" width="1300" alt="The Explore page with one session selected and nine areas marked in red and numbered: 1 the five page buttons in the top bar, 2 the isotope-system menu, set to Clumped Isotopes, 3 the light/dark button, 4 the session list, grouped under the instruments &quot;Ibex&quot; and &quot;Demo&quot;, 5 the Import link, 6 the Reset selection link, 7 the row of tabs, 8 the Export report button, 9 the status bar along the bottom." src="guide-images/finding-your-way-around.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the five pages, <strong>2</strong> the isotope-system menu, <strong>3</strong> the light/dark
+button, <strong>4</strong> the session list, <strong>5</strong> Import, <strong>6</strong> Reset selection, <strong>7</strong> the tabs of the
+Explore page, <strong>8</strong> Export report, <strong>9</strong> the status bar.</em></p>
+<h3>The top bar</h3>
+<p><strong>The five pages</strong> (<strong>1</strong> in the picture). The page you are on is shown in bold.</p>
+<table>
+<thead>
+<tr>
+<th>Page</th>
+<th>What you do there</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Explore</strong></td>
+<td>Look at your data: plots, tables, exports</td>
+<td><a href="#4-the-explore-page">4</a></td>
+</tr>
+<tr>
+<td><strong>Standardization</strong></td>
+<td>Process your data</td>
+<td><a href="#5-the-standardization-page">5</a></td>
+</tr>
+<tr>
+<td><strong>Sessions Editor</strong></td>
+<td>Rename, move, split and delete; manage scans</td>
+<td><a href="#6-the-sessions-editor">6</a></td>
+</tr>
+<tr>
+<td><strong>Settings</strong></td>
+<td>Standards, instruments, calibrations, databases, backups</td>
+<td><a href="#7-settings">7</a></td>
+</tr>
+<tr>
+<td><strong>Contacts</strong></td>
+<td>Version, this guide, the guided tour, feedback</td>
+<td>below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The isotope-system menu</strong> (<strong>2</strong>) chooses <strong>Clumped Isotopes</strong> or <strong>Dual Clumped</strong>.</p>
+<ul>
+<li>The menu is shown on the Explore, Standardization, Sessions Editor and Settings
+  pages. Contacts does not need it.</li>
+<li>On <strong>Explore</strong> it decides which tabs you see.</li>
+<li>On <strong>Standardization</strong> it decides what you process: Δ₄₇ only, or Δ₄₇ and Δ₄₈.</li>
+<li>On <strong>Sessions Editor</strong> only the <strong>Split session</strong> window uses it.</li>
+<li>Your choice stays while you move between pages.</li>
+<li>Every time DELTALab starts, the menu is set to the <strong>Default environment</strong> you chose
+  in Settings (<a href="#7-settings">chapter 7</a>).</li>
+</ul>
+<p><strong>The light/dark button</strong> (<strong>3</strong>) switches between light and dark mode. It shows a moon in
+light mode and a sun in dark mode. DELTALab remembers your choice.</p>
+<p>On a Mac the top bar is also the window's title bar: drag an empty part of it to move the
+window.</p>
+<h3>The session list (left side)</h3>
+<p>The Explore, Standardization and Sessions Editor pages have a session list (<strong>4</strong>).
+Settings and Contacts do not.</p>
+<p><img class="guide-img-side" loading="lazy" height="296" width="220" alt="The session list with two instrument groups. Under &quot;Ibex&quot; is &quot;Demo run 3&quot;, in bold with a blue dot: it is selected. Under &quot;Demo&quot; are &quot;Demo run 2&quot;, with a small red flag at the right end of its row, &quot;Demo run 1&quot;, in pale grey because it is deactivated, and &quot;Synthetic Data&quot;, with no mark." src="guide-images/session-list-side.png" /></p>
+<ul>
+<li>Sessions are listed <strong>newest first</strong> (by their most recent replicate).</li>
+<li>If your sessions come from more than one mass spectrometer, they are <strong>grouped by
+  instrument</strong>. Click a group's name to fold or unfold it. Sessions with no instrument
+  are under <strong>Unassigned</strong>.</li>
+<li>A selected session is in bold and has a blue dot.</li>
+<li>A session in pale grey is <strong>deactivated</strong> (<a href="#6-the-sessions-editor">chapter 6</a>). You
+  can still open it on Explore and in the Sessions Editor. It is left out of the
+  Standardization page, Export report and the Import window.</li>
+<li>On Explore and Standardization, <strong>click a session to select it</strong> (any other session is
+  deselected). To select several, <strong>hold Cmd (Mac) or Ctrl (Windows) and click</strong> each one;
+  Cmd/Ctrl + click a selected session removes it. <strong>Reset selection</strong> (<strong>6</strong>) deselects
+  everything.</li>
+<li>On the Sessions Editor one session is always open. Click another one to switch to it.</li>
+<li><strong>Import</strong> (<strong>5</strong>), at the bottom of the list on all three pages, opens the import
+  window (<a href="#3-importing-data">chapter 3</a>). A newly imported session appears in the list
+  straight away.</li>
+</ul>
+<blockquote class="callout"><span class="callout-label">Important:</span><div class="callout-body"><p><strong>the tables and plots show <em>every selected session together</em>.</strong>
+Select two runs and the Replicates, Summary and plots show both, merged.
+This is how you view or standardise several sessions at once.</p>
+</div></blockquote>
+<p>Each page has its own selection:</p>
+<ul>
+<li><strong>Explore</strong> keeps its selection while you visit other pages.</li>
+<li><strong>Standardization</strong> starts with nothing selected every time you open it.</li>
+<li><strong>Sessions Editor</strong> opens on the newest session every time you open it.</li>
+<li>After a standardisation, <strong>Go to Explore</strong> and <strong>Go to History</strong> open the Explore page
+  with the sessions you just processed selected (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+</ul>
+<h3>The red flag: "standardisation is out of date"</h3>
+<p>A <strong>red flag</strong> at the right end of a session's row means its standardisation is <strong>out
+of date</strong>. In the picture above, "Demo run 2" has one. Something changed after the last
+standardisation, for example:</p>
+<ul>
+<li>you excluded or included a replicate;</li>
+<li>you imported more data into the session;</li>
+<li>you moved, renamed or deleted replicates in the Sessions Editor
+  (<a href="#6-the-sessions-editor">chapter 6</a>).</li>
+</ul>
+<p>The old values stay on screen until you re-run standardisation
+(<a href="#5-the-standardization-page">chapter 5</a>). Then the flag disappears.</p>
+<p>The flag also disappears if you simply undo the change, for example by including
+again exactly the replicates you had excluded.</p>
+<p>A new reference gas or a split works differently: it <strong>clears</strong> the session's
+standardised values, so there is no flag. Δ₄₇ shows "—" until you standardise again.</p>
+<p>A session with no flag is either up to date or not standardised yet.</p>
+<h3>The status bar</h3>
+<p>The thin bar along the bottom of the window (<strong>9</strong>) is on every page.</p>
+<ul>
+<li><strong>db:</strong> the name of the database DELTALab is working on. Hover over it to see the
+  full path of the file. <a href="#7-settings">Chapter 7</a> explains how to change or rename the
+  database, and <a href="#8-backups-restore-and-updates">chapter 8</a> says where the files are.</li>
+<li><strong>last import:</strong> the date and time of your last import.</li>
+<li>On the right is the developer's name.</li>
+</ul>
+<h3>The Contacts page</h3>
+<p>The card at the top shows the <strong>version</strong> of DELTALab you are running, and the
+developer's name and email address. Below it are two cards.</p>
+<p><img loading="lazy" height="638" width="1280" alt="The two lower cards of the Contacts page. On the left, &quot;User documentation&quot; lists the eight chapters of this guide, from &quot;1. Key words&quot; to &quot;8. Backups, restore and updates&quot;, with the sub-chapters 4.1 to 4.3, 5.1 and 6.1 indented under their chapter, and a Learning Routine button below the list. On the right, &quot;Send feedback&quot; has a Bug / Suggestion switch set to Bug, a Send Email button, the line &quot;What went wrong? Diagnostic data are automatically included.&quot; and a message box with one sentence typed in." src="guide-images/contacts-page.png" /></p>
+<p><strong>User documentation</strong> is this guide.</p>
+<ul>
+<li>Click a chapter to open it in a window.</li>
+<li>A blue link inside a chapter opens the chapter it points to.</li>
+<li>Close the window with <strong>✕</strong>, or click outside it.</li>
+</ul>
+<p><strong>Learning Routine</strong>, under the list of chapters, starts a guided tour of the app.</p>
+<p><strong>Send feedback</strong> writes an email to the developer for you.</p>
+<ol>
+<li>Choose <strong>Bug</strong> or <strong>Suggestion</strong>.</li>
+<li>Type your message in the box.</li>
+<li>Click <strong>Send Email</strong>. It stays greyed out until you have typed something.</li>
+<li>Your email program opens with the message ready. Nothing is sent until you send it
+   there.</li>
+</ol>
+<p>A <strong>Bug</strong> message also carries a short technical summary: the DELTALab version, your
+operating system, the name of the database file and the number of rows in each table.
+It holds no measurement values and no sample names.</p>
+<hr />
+</section>
+<section class="chapter" id="3-importing-data">
+<h2>3. Importing data</h2>
+<p>On the Explore page, click <strong>Import</strong> at the bottom of the session list
+(<a href="#2-finding-your-way-around">chapter 2</a>). The import window has four tabs, one for
+each kind of file:</p>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>What you import</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Qtegra</strong></td>
+<td>CSV files exported from Qtegra</td>
+</tr>
+<tr>
+<td><strong>Isodat</strong></td>
+<td><code>.did</code> files, read directly</td>
+</tr>
+<tr>
+<td><strong>Wintel</strong></td>
+<td>Not built yet. The tab only says "Coming soon...".</td>
+</tr>
+<tr>
+<td><strong>Easotope</strong></td>
+<td>A whole Easotope database</td>
+</tr>
+</tbody>
+</table>
+<p><img class="guide-img-wide" loading="lazy" height="518" width="458" alt="The import window on the Qtegra tab, with six areas marked in red and numbered: 1 the four tabs Qtegra, Isodat, Wintel and Easotope, 2 the drop area, which says &quot;2 CSV files staged — drop or browse to add more&quot;, 3 the Browse button, 4 the choice between Existing session and New session, with the new session named &quot;Run_2026-09-28&quot;, 5 the Mass spec menu set to &quot;Ibex&quot; and the &quot;+ Add&quot; button, 6 the Cancel and Import buttons." src="guide-images/import-qtegra-wide.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the tabs, <strong>2</strong> the drop area, <strong>3</strong> Browse, <strong>4</strong> the session,
+<strong>5</strong> the mass spectrometer, <strong>6</strong> Cancel and Import.</em></p>
+<h3>The steps for Qtegra and Isodat files</h3>
+<ol>
+<li>Choose the tab (<strong>1</strong>).</li>
+<li>Drop your files on the drop area (<strong>2</strong>), or click <strong>Browse</strong> (<strong>3</strong>). The drop area
+   then says how many files are waiting.</li>
+<li>Choose the session the data goes into (<strong>4</strong>).</li>
+<li>For a new session, choose its mass spectrometer (<strong>5</strong>).</li>
+<li>Click <strong>Import</strong> (<strong>6</strong>). It stays greyed out until at least one file is waiting.</li>
+</ol>
+<p>When the import is done the session is in the session list. If everything in your
+files was imported, the window closes. If something was left out, the window stays open
+and tells you what and why (see "When DELTALab leaves something out" below).</p>
+<p>Good to know:</p>
+<ul>
+<li><strong>You can add files in several goes.</strong> Dropping or browsing again <em>adds</em> to the files
+  that are waiting. A file that is already waiting is not added twice.</li>
+<li><strong>Remove all</strong>, in the drop area, forgets the waiting files so you can start again.</li>
+<li>CSV files and <code>.did</code> files cannot wait together. If CSV files are waiting and you
+  choose <code>.did</code> files (or the other way round), the new files replace the old ones.</li>
+<li>If something is missing when you click <strong>Import</strong>, there is no message. The field you
+  still have to fill, the session name or the mass spectrometer, gets a red outline.</li>
+<li><strong>Cancel</strong>, or a click outside the window, closes it and forgets the waiting files.</li>
+</ul>
+<h3>Qtegra (CSV files)</h3>
+<p>Choose one or more Qtegra CSV exports. Several files are fine: they are all added to the
+same session.</p>
+<ul>
+<li>DELTALab detects whether the file uses commas or semicolons.</li>
+<li>DELTALab works out whether the dates are written day-first or month-first. It decides
+  once for all the files you import together, and then checks every row.</li>
+<li>If the dates of a file could be read either way, <strong>that file is refused</strong> rather than
+  risk putting your replicates in the wrong order. A wrong date would silently break
+  both the replicate order and the drift correction. The window names the file and
+  says why. To fix it, export again with an unambiguous date format (for example
+  <code>YYYY-MM-DD</code>).</li>
+<li>Rows with a timestamp DELTALab cannot read are skipped. The window tells you how
+  many rows, and in which file.</li>
+<li>If the same acquisition is in two of your files, it is imported once. The window
+  tells you.</li>
+</ul>
+<h3>Isodat (<code>.did</code> files)</h3>
+<p>Choose all the <code>.did</code> files of a run (one acquisition each). DELTALab reads the Thermo
+files directly, so you don't need to export them from Isodat first. A file DELTALab
+cannot read is skipped, and the window tells you which file and why.</p>
+<p>DELTALab then groups the files into samples. This is called <strong>binning</strong>. Choose how
+next to <strong>Browse</strong>:</p>
+<ul>
+<li><strong>Automated binning</strong> (the default): each file's sample name is read from the
+  <strong>Identifier 1</strong> field that the operator typed in Isodat. If that field is empty,
+  DELTALab uses the start of the file name instead.</li>
+<li><strong>Manual binning:</strong> a second panel opens on the right, where you give the sample
+  names yourself.</li>
+</ul>
+<p><img class="guide-img-wide" loading="lazy" height="518" width="904" alt="The Isodat tab with Manual binning chosen and 8 .did files waiting. A second panel on the right lists two finished groups, ETH-1 with 3 files and ETH-2 with 2 files, each with a × to remove it. Below them it says &quot;3 files still need a sample name&quot; above three file names with tick boxes; the first is ticked. At the bottom the name ETH-3 is typed in a box next to the Add group button. In the import window, Import is greyed out." src="guide-images/import-isodat-manual-wide.png" /></p>
+<p>How to bin by hand:</p>
+<ol>
+<li>Tick the files that belong to one sample.</li>
+<li>Type the sample name in the box at the bottom.</li>
+<li>Click <strong>Add group</strong>. The group appears at the top with its number of files.</li>
+<li>Repeat until the panel says "All files assigned."</li>
+</ol>
+<p>The <strong>×</strong> on a group removes it, and its files go back to the list. <strong>Import</strong> stays
+greyed out until every file is in a group.</p>
+<h3>Easotope database</h3>
+<p>Use this tab to bring data over from an Easotope database.</p>
+<p><strong>Before you start:</strong></p>
+<ul>
+<li><strong>Close Easotope.</strong> An open Easotope locks the database, and DELTALab then says so.</li>
+<li>You do <strong>not</strong> need Easotope or Java installed. DELTALab brings its own.</li>
+</ul>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Drop the Easotope <code>.h2.db</code> file, or the folder that holds it, on the drop area. Or
+   click <strong>Browse</strong> and choose the file. After an import, DELTALab remembers the file
+   for next time.</li>
+<li>Click <strong>Analyze</strong>. This is a safe trial run: nothing is written yet. A second panel
+   opens on the right and lists every session DELTALab found.</li>
+<li>For each session, check the name, the isotope system and the mass spectrometer.
+   Change them if needed. Untick any session you don't want.</li>
+<li>Click <strong>Import</strong> in the right-hand panel. DELTALab takes a safety backup first
+   (<a href="#8-backups-restore-and-updates">chapter 8</a>), then brings in the ticked sessions.</li>
+</ol>
+<p><img class="guide-img-wide" loading="lazy" height="518" width="904" alt="The Easotope tab after clicking Analyze. The drop area shows the path of the chosen database. A second panel on the right says &quot;Found 2 sessions&quot;. Each session has a tick box, an editable name (&quot;Ibex May 2026&quot; and &quot;Ibex May 2026 (b)&quot;), an isotope-system menu set to Clumped, a mass-spectrometer menu set to Ibex, and a line such as &quot;34 replicates · 2 scans · acid 70°C&quot;. The second session also has a warning in bold about different acid temperatures. Below the sessions, two lines say that 2 replicates are covered by no correction interval and are not imported, and that 3 scans will also be imported. An Import button is at the bottom of the panel." src="guide-images/import-easotope-analyzed-wide.png" /></p>
+<p>If <strong>Analyze</strong> shows a message in place of the list:</p>
+<ul>
+<li><strong>"the Easotope database is locked — close Easotope and retry":</strong> Easotope is still
+  open. Close it and click <strong>Analyze</strong> again.</li>
+<li><strong>"no *.h2.db file found in …":</strong> the folder you chose holds no Easotope database.</li>
+<li><strong>"found more than one *.h2.db file in …":</strong> choose the database file itself, not
+  the folder.</li>
+<li><strong>"Found 0 sessions":</strong> the database holds no replicate that is inside a correction
+  interval.</li>
+</ul>
+<p>How DELTALab builds the sessions:</p>
+<ul>
+<li>Each Easotope <strong>correction interval</strong> becomes one session.</li>
+<li>An interval is split wherever the reference gas changes. The second part gets "(b)"
+  after its name, the third "(c)".</li>
+<li>A replicate that is in no correction interval is <strong>not imported</strong>. The panel says how
+  many there are.</li>
+</ul>
+<p>What each session's line tells you:</p>
+<ul>
+<li>the number of replicates and scans;</li>
+<li>how many replicates are <strong>already imported</strong>, if any. They are skipped, so importing
+  the same database again is safe;</li>
+<li>the acid temperature the session will get. "(from …)" or "(built-in default)" means
+  the value does not come from Easotope.</li>
+<li>A line in bold is a warning. Read it before you import.</li>
+</ul>
+<p><strong>What comes across:</strong></p>
+<ul>
+<li>Only <strong>raw acquisitions, reference gas and scans</strong> are imported. Easotope's own
+  corrected or standardised values are not. DELTALab recalculates everything itself.</li>
+<li>Every replicate in a correction interval is imported. Replicates that were disabled
+  in Easotope arrive <strong>excluded</strong>, and so do disabled cycles
+  (<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>).</li>
+<li><strong>Reference gas:</strong> the values recorded in Easotope for that session.</li>
+<li><strong>Acid temperature:</strong> Easotope's value when all replicates of the session agree.
+  Otherwise the session gets the mass spectrometer's value, or 90 °C for an instrument
+  DELTALab does not know yet. If the replicates differ, a warning tells you.</li>
+<li><strong>Mass spectrometer:</strong> the one recorded in Easotope is preselected. Every session
+  needs one; a session without one gets a red outline when you click <strong>Import</strong>. An
+  instrument DELTALab has not seen before is added to <strong>Settings → Mass spectrometers</strong>
+  (<a href="#7-settings">chapter 7</a>) with that session's reference gas and acid temperature.</li>
+</ul>
+<h3>Choosing the session and the mass spectrometer</h3>
+<p>On the Qtegra and Isodat tabs, choose where the data goes (<strong>4</strong> in the first picture):</p>
+<ul>
+<li><strong>New session:</strong> DELTALab suggests a name from the first file. Type your own if you
+  prefer.</li>
+<li><strong>Existing session:</strong> the new acquisitions are added to that session. If the
+  suggested name is already a session, DELTALab chooses it for you. Deactivated
+  sessions are not in this list.</li>
+</ul>
+<p><strong>Every session must have a mass spectrometer.</strong> The <strong>Mass spec</strong> line (<strong>5</strong>) is shown
+when the session has none yet: for a new session, or for an old session imported before
+mass spectrometers existed.</p>
+<ul>
+<li>Pick the instrument from the menu. If you have only one, it is already chosen.</li>
+<li>The session gets the reference gas and the acid temperature of that instrument, and
+  keeps its own copy of these values. Change them later in the Sessions Editor
+  (<a href="#6-the-sessions-editor">chapter 6</a>).</li>
+<li>Another instrument is not added here: the line carries a hint, and new instruments
+  are added in <strong>Settings → Mass spectrometers</strong> (<a href="#7-settings">chapter 7</a>).</li>
+</ul>
+<h3>Importing the same data twice is safe</h3>
+<p>DELTALab recognises an acquisition by its date and time. One that is already in the
+database, <strong>in any session</strong>, is skipped. So you can import a folder again after adding
+new files to it: only the new acquisitions come in. The window tells you how many were
+skipped.</p>
+<h3>When DELTALab leaves something out</h3>
+<p>DELTALab never leaves data out silently. This applies to the Qtegra and Isodat tabs.</p>
+<p><strong>Some data was imported, some was not.</strong> The window stays open. It says how many
+replicates were imported and into which session, and lists under <strong>Not imported:</strong>
+everything that was left out, with the reason. Click <strong>Close</strong> when you have read it.</p>
+<p><img class="guide-img-wide" loading="lazy" height="518" width="458" alt="The import window after an import. The first line says &quot;Imported 5 replicates into 'Run_2026-09-28'.&quot; Below it, under &quot;Not imported:&quot;, are two lines for the file Run_2026-09-28_part2.csv: &quot;dropped 9 row(s) with an unreadable timestamp&quot; and &quot;skipped 1 acquisition(s) that another file of this import already holds&quot;. A Close button is at the bottom." src="guide-images/import-result-wide.png" /></p>
+<p><strong>Nothing was imported.</strong> The window stays open with your files still waiting. In red
+it says "No new, readable acquisitions found.", and below that it gives the reason for
+each file. Choose <strong>Remove all</strong> and other files, or <strong>Cancel</strong>.</p>
+<p>The reasons you can see:</p>
+<table>
+<thead>
+<tr>
+<th>The window says</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"… already imported"</td>
+<td>These acquisitions (Qtegra) or files (Isodat) are already in the database, in this or another session.</td>
+</tr>
+<tr>
+<td>"… that another file of this import already holds"</td>
+<td>The same acquisition is in two of your files. It was imported once.</td>
+</tr>
+<tr>
+<td>"dropped … row(s) with an unreadable timestamp"</td>
+<td>These rows of a Qtegra file have no date DELTALab can read.</td>
+</tr>
+<tr>
+<td>"cannot tell whether timestamps … are DD/MM or MM/DD"</td>
+<td>The dates of this Qtegra file can be read both ways. The file is refused (see above).</td>
+</tr>
+<tr>
+<td>"skipped — this batch is being read as …"</td>
+<td>This file's dates contradict the other files you chose with it.</td>
+</tr>
+<tr>
+<td>"doesn't look like a Qtegra export"</td>
+<td>The file is not a Qtegra CSV.</td>
+</tr>
+<tr>
+<td>"could not be read"</td>
+<td>The CSV file is damaged or empty.</td>
+</tr>
+<tr>
+<td>"Skipped … .did: …"</td>
+<td>DELTALab cannot read this <code>.did</code> file, or it has no sample cycles.</td>
+</tr>
+<tr>
+<td>"… sample cycle(s) have no matching reference cycle and were dropped"</td>
+<td>The acquisition stopped early. The complete cycles were imported.</td>
+</tr>
+</tbody>
+</table>
+<p>The same list is kept in Session History (<a href="#43-session-history">chapter 4.3</a>), under the
+import's own line, so you can read it again after you close the window.</p>
+<h3>Adding data to a session that is already standardised</h3>
+<blockquote class="callout"><span class="callout-label">Important:</span><div class="callout-body"><p><strong></strong> the new replicates get a provisional <code>Δ₄₇</code> straight away, using the
+session's existing fit. Their uncertainties stay blank and the session gets a red
+flag. Re-run standardisation (<a href="#5-the-standardization-page">chapter 5</a>) to update
+everything properly. A session standardised with the Easotope <strong>Moving window</strong> has
+no session fit, so its new replicates stay blank until you run it again.</p>
+</div></blockquote>
+<h3>Merging another DELTALab database</h3>
+<p>Open <strong>Import</strong> and choose the <strong>DELTALab</strong> tab. <strong>Browse</strong> to the other <code>.db</code> file and press
+<strong>Analyze</strong>: every session in that file is listed with what merging would do.</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>New</strong></td>
+<td>The session is not in your database. It is copied as it is, with its settings and history.</td>
+</tr>
+<tr>
+<td><strong>Add N</strong></td>
+<td>A session with that name exists. Only the N replicates you do not have yet are added, and they are recalculated with <em>your</em> session's settings.</td>
+</tr>
+<tr>
+<td><strong>Already here</strong></td>
+<td>Every replicate is already in your database. Nothing to do.</td>
+</tr>
+</tbody>
+</table>
+<p>A replicate counts as already there when its acquisition time matches one in your database,
+whichever session holds it. You can therefore merge the same file again later and only new
+replicates are added. If a session of the same name was measured on another instrument, the
+incoming one is added as "name (merged)". The other file is only read, and a backup of your
+database is taken first. After adding replicates to an existing session, re-run
+standardisation (<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<hr />
+</section>
+<section class="chapter" id="31-how-to-setup-qtegra-export">
+<h2>3.1 How to setup QTegra Export</h2>
+<p>DELTALab reads the raw beam intensities of a Qtegra export and works out the deltas
+itself (<a href="#3-importing-data">chapter 3</a>, "Qtegra (CSV files)"). So the export must hold
+the <strong>intensities</strong> and a few identifying columns. You set this up once in Qtegra's
+<strong>Query</strong> page and save it as a preset, and every later export is two clicks.</p>
+<p><img loading="lazy" height="520" width="960" alt="Qtegra's Query page with six areas marked in red and numbered. 1 is the Query entry in the list on the left. 2 is the Categories list, where Standard Intensity and Sample Intensity are ticked. 3 is the Columns list, where Trace Results is ticked under Results, and Start Time, Category and Label are ticked under Sample List. 4 is the pair of buttons above the table: the reload button and the button next to it. 5 is the Presets box, which reads Intensities_Only, with its save buttons. 6 is the Export data button in the toolbar. The table shows one row per cycle, with the columns Category, Start Time, Label and a Value column for each of 44.00, 45.00, 46.00, 49.00, 47.00, 47.50 and 48.00 m/z." src="guide-images/qtegra-export-query.png" /></p>
+<ol>
+<li>Open the Labbook you want to export and click <strong>Query</strong> in the list on the left.</li>
+<li>Under the tab called "Categories", select only <strong>Standard Intensity</strong> and
+   <strong>Sample Intensity</strong>.</li>
+<li>In the <strong>Columns</strong> section:<ol>
+<li>Under <strong>Sample List</strong>, tick <strong>Start Time</strong>, <strong>Category</strong> and <strong>Label</strong>.</li>
+<li>Under <strong>Results</strong>, tick <strong>Trace Results</strong>.</li>
+</ol>
+</li>
+<li>Click the <strong>reload</strong> button (the circle made of two arrows) to load the data with
+   the structure you defined. Then click the <strong>weight</strong> button, next to the reload
+   button, to remove the measuring unit from the table. The table should now have one
+   row per cycle: the category, the start time, the label (your sample name), and one
+   intensity per mass.</li>
+<li><strong>Presets.</strong> When the table looks like the one in the picture, save it under a
+   name (here <strong>Intensities_Only</strong>) with the save button next to the box. Next time,
+   choose the preset and the categories and columns are set for you.</li>
+<li>
+<p>Click <strong>Export data</strong> in the toolbar. The export window opens.</p>
+<p><img loading="lazy" height="518" width="959" alt="Qtegra's Export data window. At the top, the Exporter box reads Query CSV Export, and is marked in red. A preview of the file is below it. On the right, the CSV Export Options are marked in red: Path, Filename, a tick box &quot;Open file in Notepad after export&quot;, Column separator and Decimal Symbol, with Export and Cancel buttons at the bottom." src="guide-images/qtegra-export-dialog.png" /></p>
+</li>
+<li>
+<p>Set <strong>Exporter</strong> to <strong>Query CSV Export</strong>.</p>
+</li>
+<li>Under <strong>CSV Export Options</strong>, choose the <strong>Path</strong> (the folder) and the <strong>Filename</strong>.
+   Set the <strong>Decimal Symbol</strong> to a point (<code>.</code>): DELTALab does not read numbers written
+   with a decimal comma.</li>
+<li>Click <strong>Export</strong>.</li>
+</ol>
+<hr />
+</section>
+<section class="chapter" id="4-the-explore-page">
+<h2>4. The Explore page</h2>
+<p>The <strong>Explore</strong> page is where you look at your data: the plots, the tables and the
+log of the sessions you selected. DELTALab opens on this page.</p>
+<p>You do not process data here. Processing happens on the Standardization page
+(<a href="#5-the-standardization-page">chapter 5</a>); the Explore page shows you the result. The
+only things you change here are exclusions and attachments
+(<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>) and notes in
+Session History (<a href="#43-session-history">chapter 4.3</a>).</p>
+<p><img loading="lazy" height="700" width="1300" alt="The Explore page of Clumped Isotopes with the demo session &quot;Synthetic Data&quot; selected. Seven areas are marked in red and numbered: 1 the row of tabs, 2 the Export report button, 3 the zoom buttons at the top left of the plot, 4 the Measured, Corrected and Residuals buttons on the left of the plot, 5 the Date &amp; Time and Time Normalized buttons under the plot, 6 the summary bar with Entries, Samples, residual SD and compression, 7 the Filter to menu, set to None, and Clear." src="guide-images/explore-page.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the tabs, <strong>2</strong> Export report, <strong>3</strong> the zoom buttons, <strong>4</strong> the
+value buttons, <strong>5</strong> the time-axis buttons, <strong>6</strong> the summary bar, <strong>7</strong> Filter to.</em></p>
+<h3>What decides what you see</h3>
+<p>Three choices, in this order:</p>
+<ol>
+<li><strong>The sessions selected in the session list</strong> (<a href="#2-finding-your-way-around">chapter 2</a>).
+   Every selected session is shown together, merged. With no session selected every
+   tab says "Please select a session".</li>
+<li><strong>The isotope-system menu</strong> in the top bar. It decides which tabs the page has.</li>
+<li><strong>The tab</strong> you click (<strong>1</strong> in the picture).</li>
+</ol>
+<blockquote class="callout"><span class="callout-label">Same name twice:</span><div class="callout-body"><p><strong></strong> <strong>Explore</strong> in the top bar is the whole page. <strong>Explore</strong> in the
+row of tabs is its first tab, the plot against time.</p>
+</div></blockquote>
+<h3>The tabs of each isotope system</h3>
+<ul>
+<li><strong>Clumped Isotopes:</strong> Explore · Summary · Replicates · Negative Background ·
+  Δ₄₇ Scale · δ¹³C · δ¹⁸O · Session History.</li>
+<li><strong>Dual Clumped:</strong> Explore · Summary · Dual Equilibrium · Replicates · Negative
+  Background · Δ Scales · δ¹³C · δ¹⁸O · Session History. Δ₄₈ is shown next to Δ₄₇
+  throughout.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explore</td>
+<td>Every replicate against time</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>One row per sample: averages, uncertainties and temperature</td>
+</tr>
+<tr>
+<td>Replicates</td>
+<td>One row per replicate; you exclude measurements here</td>
+</tr>
+<tr>
+<td>Dual Equilibrium</td>
+<td>Δ₄₇ against Δ₄₈ with the equilibrium curve (Dual Clumped only)</td>
+</tr>
+<tr>
+<td>Negative Background</td>
+<td>A check of the background correction</td>
+</tr>
+<tr>
+<td>Δ₄₇ Scale, Δ Scales</td>
+<td>Measured or corrected Δ against the accepted values</td>
+</tr>
+<tr>
+<td>δ¹³C, δ¹⁸O</td>
+<td>One tab per isotope: the plot against time and its scale plot (<strong>Overview</strong> / <strong>Scale</strong>)</td>
+</tr>
+<tr>
+<td>Session History</td>
+<td>The log of everything done to the selected sessions</td>
+</tr>
+</tbody>
+</table>
+<p>The sections below follow the same order.</p>
+<h3>The Explore tab: Δ against time</h3>
+<p>One point per replicate, with Δ₄₇ on the vertical axis and time on the horizontal axis.
+Use it to see a whole run at a glance: drift, jumps, outliers, and how well the standards
+agree with their accepted values.</p>
+<p><strong>The value buttons</strong> (left of the plot, <strong>4</strong> in the picture):</p>
+<ul>
+<li><strong>Measured:</strong> <code>Δ₄₇ raw</code>. The plot opens on this view.</li>
+<li><strong>Corrected:</strong> the standardised Δ₄₇.</li>
+<li><strong>Residuals:</strong> how far each point sits from the standardisation fit, around a zero
+  line. Use it to judge the fit and to spot a drifting session.</li>
+</ul>
+<p>Corrected and Residuals need a standardisation. Until you have run one, every point sits
+on a flat line at zero. After a run, <strong>Go to Explore</strong> on the Standardization page opens
+this plot directly on <strong>Corrected</strong>.</p>
+<p>The button above the plot names the Δ you are looking at. On Dual Clumped there are two,
+<strong>Δ₄₇</strong> and <strong>Δ₄₈</strong>, and they switch between the masses.</p>
+<p><strong>The time-axis buttons</strong> (under the plot, <strong>5</strong> in the picture):</p>
+<ul>
+<li><strong>Date &amp; Time:</strong> real dates, with gaps where nothing was measured.</li>
+<li><strong>Time Normalized:</strong> measurement order, with equal spacing. Thin lines mark where one
+  session ends and the next begins.</li>
+</ul>
+<p><strong>Reading the plot:</strong></p>
+<ul>
+<li><strong>Standards</strong> are filled, coloured markers. Each standard has its own colour and shape,
+  set in the <strong>Marker</strong> column of <strong>Settings → Reference material</strong>
+  (<a href="#7-settings">chapter 7</a>).</li>
+<li><strong>Unknown samples</strong> are open grey circles.</li>
+<li><strong>Excluded replicates</strong> stay on the plot, pale grey, so you can still see where they
+  were.</li>
+<li><strong>Coloured horizontal lines</strong> mark each standard's accepted Δ, with its name at the left
+  end. A line is only drawn when its value falls inside the range of the plot.<ul>
+<li>In <strong>Corrected</strong>, each standard should scatter around its own line.</li>
+<li>In <strong>Measured</strong>, the points do <em>not</em> sit on the lines. Raw values are not on
+  the reference frame yet, so most lines fall outside the plot.</li>
+<li>In <strong>Residuals</strong>, there is one zero line instead.</li>
+</ul>
+</li>
+<li><strong>Hover over a point</strong> to see its sample, session, ID, date and value.</li>
+</ul>
+<p>The size of the points is set by <strong>Marker size</strong> in <strong>Settings → Display preferences</strong>.</p>
+<blockquote class="callout"><span class="callout-label">Important:</span><div class="callout-body"><p><strong></strong> a standard only counts as a standard on this page if its <strong>Show in
+plots</strong> box is ticked for the isotope system you are in (<strong>Settings → Reference
+material</strong>). With the box unticked it is drawn, counted and filtered like an unknown
+sample. This has no effect on which standards a fit uses.</p>
+</div></blockquote>
+<h3>The Summary tab</h3>
+<p>One row per sample, in alphabetical order. Excluded replicates are left out; <strong>n</strong> is the
+number of replicates that remain.</p>
+<ul>
+<li><strong>δ¹³C, δ¹⁸O:</strong> the sample averages. A <strong>δ¹⁸O AF</strong> column appears after δ¹⁸O as soon as
+  any replicate in view has an acid-fractionation-corrected value
+  (<a href="#51-the-δ¹⁸o-acid-fractionation-correction">chapter 5.1</a>).</li>
+<li><strong>Δ₄₇:</strong> the sample's standardised value, calculated the same way as D47crunch's sample
+  table. It is <em>not</em> just the average of the replicates. Before standardisation, it shows
+  the average instead.</li>
+<li><strong>SE:</strong> standard error, including both the measurement and the standardisation
+  uncertainty.</li>
+<li><strong>95 % CL:</strong> 95 % confidence limit (SE × Student's t).</li>
+<li><strong>SD:</strong> how much the sample's replicates scatter (standard deviation, n − 1).</li>
+<li><strong>T, T SE:</strong> the average temperature and the average temperature uncertainty.</li>
+</ul>
+<p>Dual Clumped adds <strong>Δ₄₈</strong> with its own SE, 95 % CL and SD.</p>
+<p>A small coloured dot after δ¹³C, δ¹⁸O, δ¹⁸O AF, Δ₄₇, Δ₄₈ and T says whether that value can
+be used as it is: green, yellow, orange or red. <a href="#44-the-traffic-light">Chapter 4.4</a>
+explains the colours and what to do about each.</p>
+<blockquote>
+<p><strong>SE and SD are different things.</strong> SE is the calculated uncertainty. SD is how
+much your replicates actually scatter. A sample with a single replicate has no
+SD ("—"), so SE is its only error bar. Do <strong>not</strong> calculate SE as SD ÷ √n; that
+gives a different, wrong number.</p>
+</blockquote>
+<p>The Summary always lists every sample of the selected sessions. It ignores <strong>Filter to</strong>.</p>
+<h3>The Replicates tab</h3>
+<p>One row per replicate. The columns are, from left to right:</p>
+<ol>
+<li><strong>QC:</strong> a round dot. Click it to exclude or include the replicate
+   (<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>).</li>
+<li><strong>Paperclip:</strong> files and a note attached to this replicate (chapter 4.1).</li>
+<li><strong>ID</strong></li>
+<li><strong>Date &amp; Time</strong></li>
+<li><strong>Sample:</strong> click it to open the raw cycles in the acquisitions window (chapter 4.1).</li>
+<li>
+<p><strong>δ¹³C, δ¹⁸O:</strong> the δ¹⁸O header is a menu that picks which δ¹⁸O the column
+   shows:</p>
+<ul>
+<li><strong>δ¹⁸O</strong> (default): standardised δ¹⁸O. "—" until Bulk Standardization
+  has run.</li>
+<li><strong>δ¹⁸O raw:</strong> the value from import, never standardised.</li>
+<li><strong>δ¹⁸O AF:</strong> the mineral δ¹⁸O from the acid fractionation correction
+  (<a href="#51-the-δ¹⁸o-acid-fractionation-correction">chapter 5.1</a>). "—" for samples not corrected.</li>
+</ul>
+<p>Your choice stays when you switch tabs or isotope systems.</p>
+</li>
+<li>
+<p><strong>Δ₄₇ raw.</strong> Dual Clumped also has <strong>Δ₄₈ raw</strong>.</p>
+</li>
+<li><strong>Δ₄₇:</strong> standardised Δ₄₇. Dual Clumped also has <strong>Δ₄₈</strong>.</li>
+<li><strong>Δ₄₇ SE:</strong> the sample's standard error from standardisation, repeated on each
+   of its replicates.</li>
+<li><strong>T (°C), T SE:</strong> temperature and its uncertainty.</li>
+</ol>
+<p>δ¹³C and δ¹⁸O show the standardised value once Bulk Standardization has run, and the raw
+value until then. Hover over a standardised value to see the raw value behind it.</p>
+<p>A cell shows "—" when there is no value yet:</p>
+<ul>
+<li><strong>Δ₄₇</strong> and <strong>Δ₄₇ SE</strong> need standardisation (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+<li><strong>T (°C)</strong> needs temperature conversion.</li>
+<li><strong>T SE</strong> needs temperature conversion with <strong>Propagate calibration
+  uncertainties</strong> ticked.</li>
+</ul>
+<h3>The Dual Equilibrium tab (Dual Clumped only)</h3>
+<p>Plots Δ₄₇ against Δ₄₈ together with the theoretical equilibrium curve. The numbers along
+the curve are temperatures in °C.</p>
+<ul>
+<li><strong>Replicates</strong> shows one point per replicate.</li>
+<li><strong>Summary</strong> shows one point per sample. Hover over it to see how many replicates it
+  averages.</li>
+</ul>
+<p>Samples that plot away from the curve point to kinetic effects or a correction problem.</p>
+<p><strong>Filter to</strong> decides what is drawn: set it to <strong>Samples</strong> to hide the standards.</p>
+<h3>The Negative Background tab</h3>
+<p>Plots Δ₄₇ (vertical) against δ₄₇ (horizontal) for your standards, with one regression
+line per standard group and a shaded 95 % confidence band around it. On Dual Clumped the
+<strong>Δ₄₇</strong> and <strong>Δ₄₈</strong> buttons switch to the mass-48 pair.</p>
+<p><strong>A good background factor makes these lines flat.</strong> Use the plot to check the
+minimizer's result, or to judge a fixed factor by eye
+(<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<ul>
+<li><strong>Gas</strong> and <strong>Carbonates</strong> choose which family of groups is shown.</li>
+<li><strong>Measured</strong> and <strong>Corrected</strong> choose which Δ value is plotted.</li>
+<li>The groups come from the <strong>Neg. Bkg eval.</strong> column of <strong>Settings → Reference
+  material</strong>. If no standard has a group, the plot says "No standard groups defined".</li>
+</ul>
+<p>This plot always uses all standards. It ignores <strong>Filter to</strong>.</p>
+<h3>The Δ₄₇ Scale tab (Clumped) and Δ Scales tab (Dual)</h3>
+<p>Plots each standard's Δ (vertical) against its accepted Δ (horizontal, <strong>Expected</strong>),
+with a fitted line. The equation of the line and the uncertainty of its slope are printed
+on the plot. On Dual Clumped the <strong>Δ₄₇</strong> and <strong>Δ₄₈</strong> buttons switch masses.</p>
+<ul>
+<li>Until you standardise, the tab says "Standardise this session to visualize this plot".</li>
+<li><strong>Measured</strong> plots raw Δ and <strong>Corrected</strong> the standardised Δ.</li>
+<li>A <strong>Measured</strong> slope below 1 means scale compression. The <strong>Δ₄₇ compression</strong> value in
+  the summary bar gives it as a percentage.</li>
+<li>The plot shows the standards the session was standardised with. <strong>Add to the plot</strong>,
+  which takes the place of <strong>Filter to</strong> on this tab, adds other reference materials. An
+  added material is drawn and also counts in the fitted line. <strong>All</strong> ticks every one of
+  them, and <strong>Clear</strong> removes them again.</li>
+<li>Hover over a point to see its expected value, its raw value and the difference.</li>
+</ul>
+<p>This plot always uses the full data set of the selected sessions.</p>
+<h3>The δ¹³C and δ¹⁸O tabs</h3>
+<p>Each tab holds two plots, switched with the <strong>Overview</strong> and <strong>Scale</strong> buttons at the top.</p>
+<p><strong>Overview</strong> is the isotope against time. It works like the Explore tab's plot, with two
+differences: the value buttons are only <strong>Measured</strong> and <strong>Corrected</strong> (after Bulk
+Standardization), and there is no Residuals view.</p>
+<p><strong>Scale</strong> plots each standard's value against its accepted value, with a fitted line, as
+on the Δ₄₇ Scale tab. It needs Bulk Standardization, and it shows the standards that run
+used. <strong>Measured</strong> and <strong>Corrected</strong> choose the vertical axis.</p>
+<p>On these two tabs, a standard counts as a standard when the <strong>Bulk</strong> box of its <strong>Show in
+plots</strong> column is ticked (<strong>Settings → Reference material</strong>). The equilibrated gases have
+no bulk values and no Bulk tick, so they are drawn as open grey circles.</p>
+<p>The coloured horizontal lines mark where each reference material is expected.</p>
+<ul>
+<li>For δ¹⁸O that value depends on the acid reaction temperature: the carbonate's δ¹⁸O is
+  converted to the CO₂ it releases. Each session has its own temperature, taken from its
+  mass spectrometer.</li>
+<li>When the sessions you plot were run at different temperatures, each material gets one
+  line per temperature. The lines for the first temperature are solid with their labels on
+  the left. The lines for the other temperatures are dashed with their labels on the
+  right.</li>
+<li>Every label shows its temperature, for example <code>ETH 3 (70 °C)</code>.</li>
+</ul>
+<p>The δ¹⁸O plot shows the standardised δ¹⁸O, not δ¹⁸O AF.</p>
+<h3>The Session History tab</h3>
+<p>The permanent log of the selected sessions, newest first. See
+<a href="#43-session-history">chapter 4.3</a>.</p>
+<h3>Zooming and panning plots</h3>
+<ul>
+<li>Use the <strong>+</strong>, <strong>−</strong> and <strong>⟲</strong> (reset) buttons at the top left of a plot (<strong>3</strong> in the
+  picture).</li>
+<li>On a trackpad, pinch to zoom. With a mouse, hold Ctrl and turn the wheel.</li>
+<li>Click and drag across a plot to draw a rectangle; the plot zooms in to that area.</li>
+<li>Once zoomed in, hold Shift and drag to move around, or scroll with two fingers.</li>
+<li>Hover over a point to see its details.</li>
+</ul>
+<p>Changing a plot's value buttons or its time axis resets the zoom.</p>
+<h3>The summary bar</h3>
+<p>The bar at the bottom of the Clumped and Dual pages (<strong>6</strong> in the picture) summarises the
+selected sessions.</p>
+<ul>
+<li><strong>Entries:</strong> the number of replicates. This is the only number that still counts
+  excluded replicates.</li>
+<li><strong>Samples:</strong> the number of replicates that belong to unknown samples, not to standards.
+  Excluded replicates are not counted.</li>
+<li><strong>Δ₄₇ residual SD:</strong> the scatter (standard deviation) of the residuals, the same values
+  the <strong>Residuals</strong> view plots. Smaller is better. "—" until you standardise.</li>
+<li><strong>Δ₄₇ compression:</strong> how far the slope of raw Δ against the standards' accepted Δ is
+  from 1, as a percentage.</li>
+</ul>
+<p>Dual Clumped adds <strong>Δ₄₈ residual SD</strong> and <strong>Δ₄₈ compression</strong>.</p>
+<p>These numbers always describe all replicates of the selected sessions. <strong>Filter to</strong> does
+not change them.</p>
+<h3>Filter to</h3>
+<p><strong>Filter to</strong> (on the right of the summary bar, <strong>7</strong> in the picture) narrows what you
+see. It never changes a calculation.</p>
+<p>Click the button to open the menu:</p>
+<ul>
+<li><strong>None:</strong> show everything. <strong>This is what the page opens on.</strong></li>
+<li><strong>Standards:</strong> show only the standards.</li>
+<li><strong>Samples:</strong> show only the unknown samples.</li>
+<li><strong>Below the line:</strong> tick individual samples. As soon as one is ticked, the button reads
+  "N selected" and only the ticked samples are shown. <strong>Clear</strong> unticks them and goes back
+  to None, Standards or Samples, whichever was chosen.</li>
+</ul>
+<p>What the filter applies to:</p>
+<table>
+<thead>
+<tr>
+<th>Follows the filter</th>
+<th>Ignores the filter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explore plot</td>
+<td>Summary</td>
+</tr>
+<tr>
+<td>Replicates</td>
+<td>Negative Background</td>
+</tr>
+<tr>
+<td>Dual Equilibrium</td>
+<td>Δ₄₇ Scale, Δ Scales</td>
+</tr>
+<tr>
+<td>δ¹³C and δ¹⁸O Overview plots</td>
+<td>δ¹³C and δ¹⁸O Scale plots</td>
+</tr>
+<tr>
+<td></td>
+<td>Session History</td>
+</tr>
+<tr>
+<td></td>
+<td>The numbers in the summary bar</td>
+</tr>
+</tbody>
+</table>
+<p>Summary always lists every sample, and the diagnostic plots always use the full set of
+standards.</p>
+<p>The filter stays while you move between tabs. It goes back to <strong>None</strong> when you leave the
+Explore page or change the isotope system.</p>
+<h3>Export report</h3>
+<p><strong>Export report</strong> (top right, <strong>2</strong> in the picture) saves the tables and plots of the
+selected sessions to files. See <a href="#42-exporting-a-report">chapter 4.2</a>.</p>
+<hr />
+</section>
+<section class="chapter" id="41-checking-raw-data-and-excluding-bad-measurements">
+<h2>4.1 Checking raw data and excluding bad measurements</h2>
+<p>You do all of this on the <strong>Explore</strong> page, in the <strong>Replicates</strong> tab
+(<a href="#4-the-explore-page">chapter 4</a> describes the page and every column of the list).</p>
+<p>Three things in each row of the list matter here:</p>
+<ul>
+<li>the <strong>QC</strong> dot at the start of the row, which excludes or includes the replicate;</li>
+<li>the <strong>paperclip</strong>, which opens its attachments;</li>
+<li>the <strong>Sample</strong> name, which opens its raw cycles.</li>
+</ul>
+<h3>The acquisitions window: raw cycles</h3>
+<p>Click a <strong>Sample</strong> name to see the raw voltages behind that replicate.</p>
+<ul>
+<li>The buttons on the left (<strong>Acq. 1</strong>, <strong>Acq. 2</strong>, …) choose the acquisition.</li>
+<li>Each row of the table is one cycle, showing the sample and reference voltages from V44
+  to V49, plus V47.5 where you have it.</li>
+<li>Under the table are the Δ₄₇ raw of the chosen acquisition and the <strong>internal SD</strong>: the
+  scatter of the Δ₄₇ raw of this replicate's acquisitions. Dual Clumped adds the same
+  for Δ₄₈. The internal SD counts applied exclusions only, so "(before Apply)" tells you
+  the numbers do not include your latest clicks yet.</li>
+<li>For Isodat <code>.did</code> files with a logged reading, two labels above the table give the
+  left and right bellows pressure and position from the moment Isodat skipped the
+  reference refill.</li>
+</ul>
+<p>Use this window to look into a suspicious replicate. You can also <strong>exclude part of
+a replicate</strong> here, instead of the whole thing.</p>
+<p><img class="guide-img-wide" loading="lazy" height="744" width="988" alt="The acquisitions window for ETH 3. Buttons Acq. 1 to Acq. 13 run down the left side. To the right is a table of cycles 1 to 10 with a QC column on the left. Cycles 3 and 7 have a red QC dot and greyed-out values. Below the table are the Δ47 and Δ48 raw of Acquisition 1 and the raw internal SD of each. The footer says &quot;2 unapplied changes&quot; and has the buttons Exclude acquisition, Apply and Close." src="guide-images/acquisitions-window-wide.png" /></p>
+<p><em>Cycles 3 and 7 are marked for exclusion (red dot, greyed values). Nothing changes until you click <strong>Apply</strong>.</em></p>
+<p><strong>To exclude single cycles:</strong></p>
+<ol>
+<li>Click the <strong>QC</strong> dot at the start of each bad cycle.</li>
+<li>Click <strong>Apply</strong>. DELTALab recalculates that replicate from the cycles that are
+   left, and marks the session as out of date. Re-run standardisation afterwards.</li>
+</ol>
+<p><strong>To exclude a whole acquisition:</strong></p>
+<ol>
+<li>Click its <strong>Acq.</strong> button.</li>
+<li>Click <strong>Exclude acquisition</strong>, then <strong>Apply</strong>. (On a fully excluded acquisition
+   the button reads <strong>Include acquisition</strong>.)</li>
+</ol>
+<p><strong>Good to know:</strong></p>
+<ul>
+<li>Changes wait until you click <strong>Apply</strong>. If you close the window with changes
+  still waiting, DELTALab asks whether to throw them away.</li>
+<li>You cannot exclude <em>every</em> cycle of a replicate here. To remove the whole
+  replicate, use its QC dot in the Replicates.</li>
+<li>Cycle and acquisition exclusions are recorded in Session History (<a href="#43-session-history">chapter 4.3</a>).</li>
+</ul>
+<h3>Excluding a whole replicate</h3>
+<p>Click the <strong>QC dot</strong> at the left of the row. An excluded replicate:</p>
+<ul>
+<li>is <strong>left out</strong> of the Summary, of every fit (background, standardisation, scale
+  compression, temperature) and of the <strong>Samples</strong> count;</li>
+<li><strong>stays visible</strong>, greyed out, in the Replicates and the acquisitions
+  window, so you can always see it and change your mind;</li>
+<li><strong>stays excluded</strong> when you re-process, edit the reference gas, re-import or move it
+  to another session.</li>
+</ul>
+<p>Excluding or including a replicate marks the session as out of date (red flag).
+Re-run standardisation afterwards.</p>
+<h3>Attachments: files and notes on a replicate</h3>
+<p>Click the <strong>paperclip</strong> in a replicate's row to keep files and a note with that
+replicate. Examples: a lab-book photo, an instrument log, a weighing sheet.</p>
+<ul>
+<li><strong>Attach files:</strong> <code>.csv</code>, <code>.jpg</code>, <code>.xlsx</code> or <code>.pdf</code>. CSV files and Excel sheets can be
+  previewed in the window (the first 50 rows × 26 columns); a PDF is opened with
+  <strong>Save a copy</strong>.</li>
+<li><strong>Add comment:</strong> one free-text note per replicate.</li>
+<li><strong>Save a copy</strong> downloads an attached file or the note. <strong>Delete</strong> removes it.</li>
+<li>One replicate can hold up to <strong>3 files</strong> and <strong>5 MB</strong> in total, note included.</li>
+</ul>
+<hr />
+</section>
+<section class="chapter" id="42-exporting-a-report">
+<h2>4.2 Exporting a report</h2>
+<p><strong>Export report</strong> saves the tables and plots of the sessions you selected as
+files: tables as CSV, plots as PDF. Use it to archive a result, to work on the
+numbers in another program or to send data to a colleague.</p>
+<p><img loading="lazy" height="860" width="1300" alt="The Explore page with the Export report window open for &quot;Synthetic Data&quot;. Six areas are marked in red and numbered: 1 the Export report button at the top right of the page, 2 the &quot;Data (CSV)&quot; list with Replicate list and Summary ticked and Session history not ticked, 3 the options of the ticked Explore plot: Mass with Δ47, Value with Measured and Corrected chosen and Residuals not, X axis with Date &amp; Time and Time Normalized chosen, 4 the note &quot;4 files&quot; next to Explore, 5 the &quot;Anonymise samples&quot; line with the Samples menu set to None, 6 the Export button. The plots δ13C, δ18O, Negative Background and Scale Compression are listed but not ticked." src="guide-images/export-window.png" /></p>
+<p><em>Marked in red: <strong>1</strong> Export report, <strong>2</strong> the tables, <strong>3</strong> a plot's options,
+<strong>4</strong> the number of files, <strong>5</strong> Anonymise samples, <strong>6</strong> Export.</em></p>
+<h3>How to export</h3>
+<ol>
+<li>On the Explore page (<a href="#4-the-explore-page">chapter 4</a>), select the session or
+   sessions in the session list.</li>
+<li>Click <strong>Export report (1)</strong>. The title of the window names the sessions.</li>
+<li>Tick the tables <strong>(2)</strong> and the plots you want.</li>
+<li>For each ticked plot, choose its options <strong>(3)</strong>.</li>
+<li>Optionally hide sample names with <strong>Anonymise samples (5)</strong>.</li>
+<li>Click <strong>Export (6)</strong>.</li>
+</ol>
+<p>If <strong>Replicate list</strong> or <strong>Summary</strong> is ticked and some of its values do not have a
+green dot, a warning opens before the files are written (<a href="#44-the-traffic-light">chapter 4.4</a>).</p>
+<p>Good to know:</p>
+<ul>
+<li><strong>The export covers every replicate of the selected sessions.</strong> The <strong>Filter
+  to</strong> menu of the Explore page does not apply.</li>
+<li><strong>Deactivated sessions are never exported.</strong> The window lists them under "Left out
+  (deactivated)".</li>
+<li><strong>The isotope system</strong> in the top bar decides which columns and plots are
+  offered.</li>
+<li><strong>The window starts empty every time you open it.</strong> Nothing is ticked and the
+  options are back to their starting values.</li>
+<li>With nothing ticked, <strong>Export</strong> tells you to select at least one item. With no
+  session selected, the window asks you to select one and open it again.</li>
+<li>An export changes nothing in your data and is not written to Session History
+  (<a href="#43-session-history">chapter 4.3</a>).</li>
+</ul>
+<h3>The tables (CSV)</h3>
+<ul>
+<li><strong>Replicate list:</strong> one row per replicate, with the same values as the
+  Replicates tab, plus the raw δ⁴⁵–δ⁴⁹ and the <code>Excluded</code> flag. Excluded
+  replicates are <strong>kept</strong>, as on screen.</li>
+<li><strong>Summary:</strong> one row per sample with the number of replicates and the mean and
+  SD of each value, as in the Summary tab. Excluded replicates are <strong>left out</strong>,
+  and so is a sample whose replicates are all excluded.</li>
+<li><strong>Session history:</strong> the log of the selected sessions, one row per entry, with
+  its date, its kind, its description, its full details and any note.</li>
+</ul>
+<p>Good to know:</p>
+<ul>
+<li><strong>A value that does not exist yet is left empty</strong>, for example a temperature
+  before Temperature Conversion, or δ¹⁸O AF before the acid correction.</li>
+<li><strong>Replicate list and Summary have no session column.</strong> With several sessions
+  selected, their replicates are listed together and the Summary reports each
+  sample over all of them (<a href="#44-the-traffic-light">chapter 4.4</a> says how Δ values
+  from several standardisations are combined). Export one session at a time if you need
+  to keep them apart. The Session history file does name the session of each entry.</li>
+<li>Bulk values in the Summary are the standardised ones when they exist, and the
+  raw ones otherwise.</li>
+</ul>
+<h3>The plots (PDF)</h3>
+<p>Explore, δ¹³C, δ¹⁸O, Negative Background and Scale Compression. They are the
+same plots as on the Explore page, with the same look. <strong>Scale Compression</strong> is the
+measured plot of the Δ₄₇ Scale tab (Δ Scales on Dual Clumped).</p>
+<p>Ticking a plot shows <strong>the same choices as the plot on screen</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Plot</th>
+<th>Choices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explore</td>
+<td>Mass; Value: Measured, Corrected, Residuals; X axis: Date &amp; Time, Time Normalized</td>
+</tr>
+<tr>
+<td>δ¹³C, δ¹⁸O</td>
+<td>Value: Measured, Corrected; X axis: Date &amp; Time, Time Normalized</td>
+</tr>
+<tr>
+<td>Negative Background</td>
+<td>Mass; Value: Measured, Corrected; Groups: Gas, Carbonates</td>
+</tr>
+<tr>
+<td>Scale Compression</td>
+<td>Mass</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Click a choice to add it or remove it.</strong> One choice in each row always stays
+  on. Each plot starts on Measured and Date &amp; Time.</li>
+<li><strong>Each combination is a separate figure.</strong> Measured and Corrected, each against
+  Date &amp; Time and Time Normalized, makes four. The note next to the plot <strong>(4)</strong> tells
+  you how many files that plot will give.</li>
+<li><strong>Groups</strong> is the exception: the groups you choose are drawn side by side in
+  one figure.</li>
+<li>A figure shows all selected sessions together.</li>
+</ul>
+<p><img loading="lazy" height="540" width="900" alt="An exported figure, titled &quot;Δ47 Explore — Corrected&quot;. Corrected Δ47 is plotted against the date. Each standard has its own marker and colour and a horizontal reference line labelled with its name: 25C, ETH 3, ETH 2 and 1000C. The samples are drawn as open grey circles." src="guide-images/export-plot-example.png" /></p>
+<p><em>An exported figure: Explore, Corrected against Date &amp; Time. Standards keep their
+marker and colour from Settings; samples are open grey circles.</em></p>
+<h3>Anonymise samples</h3>
+<p>Use this to share data without showing what your samples are.</p>
+<p><img loading="lazy" height="171" width="440" alt="The lower part of the Export report window with the Samples menu open. The menu lists None, All, and then the samples &quot;Sample A&quot;, not ticked, and &quot;Sample B&quot;, ticked. Below the menu, the button reads &quot;1 selected&quot; and the text next to it says &quot;1 sample hidden&quot;." src="guide-images/export-anonymise.png" /></p>
+<ol>
+<li>Click the <strong>Samples</strong> menu.</li>
+<li>Tick the samples to hide, or choose <strong>All</strong>. <strong>None</strong> clears the choice.</li>
+<li>Click outside the menu to close it. The text next to the menu says how many
+   samples are hidden.</li>
+</ol>
+<p>What happens in the export:</p>
+<ul>
+<li>Each hidden sample is renamed <strong>Unknown 1</strong>, <strong>Unknown 2</strong>, … in the order they
+  were first measured. Samples you did not tick keep their names.</li>
+<li><strong>The same sample gets the same label in every file</strong> of that export: the
+  tables, every plot and the Session history.</li>
+<li><strong>Standards are never renamed</strong> and are not in the list. Their values are
+  published.</li>
+<li>Only the exported files are changed. The names in DELTALab stay as they are.</li>
+</ul>
+<h3>The files you get</h3>
+<ul>
+<li><strong>One item ticked:</strong> that file, a <code>.csv</code> or a <code>.pdf</code>.</li>
+<li><strong>Several items, or one plot with several figures:</strong> a single <code>.zip</code> with all
+  the files in it.</li>
+</ul>
+<p>File names start with the session name, with spaces and special characters
+replaced by <code>_</code>. With several sessions selected they start with <code>export</code>
+instead.</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>File name, for the session "Synthetic Data"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Replicate list</td>
+<td><code>Synthetic_Data_Replicate list.csv</code></td>
+</tr>
+<tr>
+<td>Summary</td>
+<td><code>Synthetic_Data_Sample summary.csv</code></td>
+</tr>
+<tr>
+<td>Session history</td>
+<td><code>Synthetic_Data_Session history.csv</code></td>
+</tr>
+<tr>
+<td>Explore</td>
+<td><code>Synthetic_Data_Data Explore (D47 corrected vs Date).pdf</code></td>
+</tr>
+<tr>
+<td>δ¹³C, δ¹⁸O</td>
+<td><code>Synthetic_Data_d13C (raw vs Date).pdf</code>, <code>Synthetic_Data_d18O (raw vs Date).pdf</code></td>
+</tr>
+<tr>
+<td>Negative Background</td>
+<td><code>Synthetic_Data_Negative background (D47 raw).pdf</code></td>
+</tr>
+<tr>
+<td>Scale Compression</td>
+<td><code>Synthetic_Data_Scale Compression (D47).pdf</code></td>
+</tr>
+<tr>
+<td>Everything together</td>
+<td><code>Synthetic_Data_export.zip</code></td>
+</tr>
+</tbody>
+</table>
+<p>The name of a plot file says which figure it is.</p>
+<h3>Dual Clumped</h3>
+<p>With <strong>Dual Clumped</strong> chosen in the top bar:</p>
+<ul>
+<li>the Replicate list also carries the Δ₄₈ residual, the sample's Δ₄₈ and its
+  uncertainties;</li>
+<li><strong>Mass</strong> offers Δ₄₇ and Δ₄₈ for Explore, Negative Background and Scale
+  Compression. Choosing both doubles the figures;</li>
+<li>one more plot is offered, <strong>Dual Equilibrium</strong>, with the choice <strong>View</strong>:
+  Replicates or Summary.</li>
+</ul>
+<hr />
+</section>
+<section class="chapter" id="43-session-history">
+<h2>4.3 Session History</h2>
+<p>Session History is a <strong>permanent log</strong> of what happened to each session. Entries
+are only ever added, never changed, though you can add a note to any of them. It
+records:</p>
+<ul>
+<li>imports;</li>
+<li>excluding and including replicates, cycles and acquisitions;</li>
+<li>background corrections;</li>
+<li>standardisations, temperature conversions and acid fractionation corrections;</li>
+<li>changes made in the Sessions Editor (<a href="#6-the-sessions-editor">chapter 6</a>):<ul>
+<li>renaming a session;</li>
+<li>changing its mass spectrometer, reference gas or acid reaction
+  temperature;</li>
+<li>splitting a session;</li>
+<li>deactivating and activating a session;</li>
+<li>moving, renaming and deleting replicates.</li>
+</ul>
+</li>
+</ul>
+<p>Open the <strong>Session History</strong> tab of the Explore page (<a href="#4-the-explore-page">chapter 4</a>).
+It shows every selected session together, newest first.</p>
+<p><img loading="lazy" height="520" width="1080" alt="Three entries of the Session History tab for &quot;Synthetic Data&quot;. Each is a card with the session name and a coloured label on the left: δ18O AFF, Standardize and Temperature. The first card says &quot;Acid fractionation correction applied to 33 replicate(s)&quot; and carries a note, &quot;Minerals checked against the XRD results.&quot;, with an Edit note link. The Standardize card lists the sessions, the standards and a table of parameters. The other two cards have an Add note link under their label." src="guide-images/session-history.png" /></p>
+<ul>
+<li>An <strong>import</strong> entry says how many replicates came in. If the import left
+  something out, the entry lists it under "Not imported:", with the reason
+  (<a href="#3-importing-data">chapter 3</a>).</li>
+<li>Click a <strong>standardize</strong> entry to see everything about that run: the sessions,
+  the target, the standards, the drift terms and the fitted parameters. This is a
+  complete record of how a number was produced.</li>
+<li>Several quick exclude/include clicks in a row are shown as one line. The log
+  itself keeps every click.</li>
+<li>Each entry has a coloured label that says what kind of change it is. Changes to
+  the reference gas, the mass spectrometer and the acid reaction temperature, and
+  moved replicates, carry the <strong>Background</strong> label, like the background
+  corrections. Deactivating and activating a session carry <strong>Deactivated</strong> and
+  <strong>Activated</strong>.</li>
+<li><strong>Add note</strong>, under an entry's label, keeps a note of up to 2,000 characters with
+  that entry, for example why you ran a step again. <strong>Edit note</strong> changes it; saving
+  it empty removes it. Notes are also in the Session history file of an export.</li>
+</ul>
+<p><strong>How Sessions Editor changes appear:</strong></p>
+<ul>
+<li><strong>A renamed session keeps its history.</strong> The rename is one more entry.</li>
+<li><strong>A split</strong> is written to every part. The part that kept the original name
+  keeps the whole history. Each new session starts with a single entry that says
+  which session it was split from.</li>
+<li><strong>A move</strong> is written to both sessions.</li>
+<li><strong>A renamed or deleted replicate</strong> is written to its session.</li>
+<li><strong>Deleting a session deletes its history.</strong> Nothing about that session is left
+  in the log.</li>
+</ul>
+<p><strong>Not recorded:</strong> exports, attachments, backups and restores.</p>
+<hr />
+</section>
+<section class="chapter" id="44-the-traffic-light">
+<h2>4.4 The traffic light</h2>
+<p>The <strong>traffic light</strong> is the small coloured dot after each reported value in the
+<strong>Summary</strong> tab (<a href="#4-the-explore-page">chapter 4</a>). It answers one question: <em>can this
+value be reported as it is, for the replicates I selected?</em></p>
+<p>It appears after δ¹³C, δ¹⁸O, δ¹⁸O AF, Δ₄₇, Δ₄₈ and T. A value that does not exist yet has
+no dot. Triple Oxygen has no traffic light.</p>
+<p><img loading="lazy" height="700" width="1300" alt="The Summary tab with two sessions selected, &quot;Traffic Light Test A&quot; and &quot;Traffic Light Test B&quot;. The sample Alpha, measured in both sessions, has a yellow dot after its Δ47 value and the three ETH standards have a green one. The tooltip of the yellow dot is open. Its headline reads &quot;Usable, with a note - This value is valid and can be used. The note below says how it differs from a plain result.&quot; Under it, one reason: Pooled and Independent were both used on the selected sessions; they use the same correction equation and differ in how it is fitted and how the error is estimated, so their values can be combined. Below a line, the notes say the value is the mean of 2 separate standardizations, each weighted by its error, and name the Pooled standardization of Traffic Light Test A and the Independent standardization of Traffic Light Test B." src="guide-images/summary-traffic-light.png" /></p>
+<h3>The four colours</h3>
+<table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Headline in the app</th>
+<th>Meaning</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Green</td>
+<td>Ready to report</td>
+<td>The value was calculated from exactly the replicates you selected, and it is up to date.</td>
+<td>Nothing.</td>
+</tr>
+<tr>
+<td>Yellow</td>
+<td>Usable, with a note</td>
+<td>The value is valid and up to date, but it is not exactly what the selection shows.</td>
+<td>Read the note.</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>Needs an update</td>
+<td>The value is out of date or incomplete.</td>
+<td>Redo the step the tooltip names.</td>
+</tr>
+<tr>
+<td>Red</td>
+<td>Cannot be reported</td>
+<td>It is not mathematically allowable to report one value for these replicates.</td>
+<td>Standardise the selected sessions together.</td>
+</tr>
+</tbody>
+</table>
+<p>When a value has several problems, the most serious one decides the colour, and it is
+listed first.</p>
+<h3>Reading a dot</h3>
+<ul>
+<li><strong>Point at a dot</strong> to see why it has that colour: a headline, the reasons, then notes
+  on how the value was produced.</li>
+<li><strong>Click a dot</strong> to keep its tooltip open, so you can select and copy the text. Click the
+  dot again, click elsewhere or press Esc to close it.</li>
+<li><strong>Reference entry</strong> in the tooltip is a link while the tooltip is kept open. It opens
+  Session History (<a href="#43-session-history">chapter 4.3</a>) on the entry of the
+  standardisation behind the value.</li>
+</ul>
+<h3>Why the selection matters</h3>
+<p>A standardisation writes <strong>one value per sample</strong> for all the sessions it was run on.
+The Summary then shows that value for whatever sessions you select. The two do not
+always match:</p>
+<ul>
+<li>You standardised sessions A and B together, and select only A. The value of a sample
+  measured in both still contains B's replicates.</li>
+<li>You standardised A and B separately, and select both. There are two values for the
+  same sample.</li>
+</ul>
+<p>The traffic light tells you which case you are in, and whether it is a problem.</p>
+<p>This chapter calls each click of <strong>Apply</strong> on the Standardization page a <strong>run</strong>. The
+app's tooltips say "standardization"; the export calls them <strong>Standardization runs</strong>
+and numbers them (<code>#4</code>).</p>
+<h3>Several standardisations behind one Δ value</h3>
+<p>When the selected replicates of a sample were standardised in <strong>separate runs</strong>,
+DELTALab checks whether their values may be combined. They may when all of this is true:</p>
+<ol>
+<li><strong>No session is shared between the runs.</strong> Each value then comes from its own
+   measurements of the standards, so the values are statistically independent.</li>
+<li><strong>The runs used the same standards.</strong></li>
+<li><strong>Each standard had the same accepted value in every run.</strong></li>
+<li><strong>Each run produced an SE.</strong></li>
+</ol>
+<p>If so, the Summary shows the <strong>weighted mean</strong> of the runs' values. Each value counts in
+proportion to its precision:</p>
+<p><code>w = 1 / SE²</code></p>
+<p><code>Δ = Σ(w · Δ) / Σw</code></p>
+<p><code>SE = 1 / √(Σw)</code></p>
+<p><code>95 % CL = SE × t</code>, with Student's t for the combined degrees of freedom
+(Welch–Satterthwaite).</p>
+<ul>
+<li>Two runs with the same SE give the plain average, with an SE smaller by √2.</li>
+<li>This is the calculation Independent standardisation does inside one run
+  (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+<li>The tooltip says "This value is the mean of 2 separate standardizations, each weighted
+  by its error." and names each one.</li>
+<li>Nothing is stored: the combined value is calculated from the stored values every time,
+  on screen and in the exported Summary alike.</li>
+</ul>
+<p>Runs with <strong>different settings</strong> combine too: different drift terms (Pooled,
+Independent) or different Easotope ETF options. These are chosen for each session, as in
+D47crunch, and the tooltip adds a note that says so.</p>
+<p>If one of the four conditions fails, the dot is <strong>red</strong>. The Summary then shows the
+value of the first run only, so do not use it for the whole selection.</p>
+<h3>Red: what makes a value not allowable</h3>
+<p><strong>Δ₄₇ and Δ₄₈:</strong> the tooltip lists <strong>every</strong> problem that applies, one sentence each, in
+the order of the table, followed by one line per standardisation. A second problem is
+therefore not hidden behind the first.</p>
+<table>
+<thead>
+<tr>
+<th>The tooltip says</th>
+<th>Why it is not allowable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Session B is part of more than one of these standardizations, so its data would be counted twice in the average…"</td>
+<td>Both values contain session B's data. They are not independent, and averaging them would count B twice.</td>
+</tr>
+<tr>
+<td>"These standardizations did not use the same standards (ETH 2 was not used in all of them)…"</td>
+<td>Different standards define different reference frames.</td>
+</tr>
+<tr>
+<td>"The accepted value of ETH 3 was not the same in these standardizations…"</td>
+<td>The values are on different scales.</td>
+</tr>
+<tr>
+<td>"One of these standardizations reported no error (SE) for this sample…"</td>
+<td>Without an SE a value cannot be weighted.</td>
+</tr>
+<tr>
+<td>"One of these standardizations did not record the accepted values of its standards…"</td>
+<td>The reference frame cannot be checked. Standardise again.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>A <strong>standard</strong> shows its accepted value, so it is green whatever you select. It turns
+  red only if it had different accepted values in the selected runs.</li>
+<li>A material that is a standard in one session and an unknown in another is red.</li>
+</ul>
+<p><strong>The other values:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Red when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>δ¹³C, δ¹⁸O</td>
+<td>the replicates were bulk-standardised in separate runs</td>
+</tr>
+<tr>
+<td>T</td>
+<td>the replicates were converted with different calibrations</td>
+</tr>
+<tr>
+<td>δ¹⁸O AF</td>
+<td>the replicates were corrected with different minerals or constants</td>
+</tr>
+</tbody>
+</table>
+<p>Temperatures converted in separate runs with the <strong>same</strong> calibration are green. So are
+mineral values corrected in separate runs with the same mineral.</p>
+<p><strong>To clear a red dot,</strong> run the step again on the selected sessions together
+(<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<h3>Orange: redo a step</h3>
+<table>
+<thead>
+<tr>
+<th>The tooltip says</th>
+<th>Applies to</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Session A has changed since it was standardized (2 replicates added)…"</td>
+<td>Δ, δ¹³C, δ¹⁸O</td>
+<td>Standardise the session again. The change can be replicates added, removed, renamed or recalculated, or exclusions changed.</td>
+</tr>
+<tr>
+<td>"1 of 8 replicates was added or changed after the standardization, so it has no standardized value…"</td>
+<td>Δ</td>
+<td>Standardise the session again to include it.</td>
+</tr>
+<tr>
+<td>"Easotope ETF and Pooled do not use the same correction equation…"</td>
+<td>Δ, combined runs</td>
+<td>Treat the combined value with caution. This is an Easotope ETF run combined with a Pooled or Independent one: the correction equations differ.</td>
+</tr>
+<tr>
+<td>"…have not been bulk-standardized yet, so this average mixes corrected and uncorrected values."</td>
+<td>δ¹³C, δ¹⁸O</td>
+<td>Run Bulk Standardization on those sessions.</td>
+</tr>
+<tr>
+<td>"…standardized again after the Temperature Conversion, so it has no temperature yet and is not part of this average."</td>
+<td>T</td>
+<td>Run Temperature Conversion again.</td>
+</tr>
+<tr>
+<td>"…bulk-standardized again after the Acid Fractionation Correction, so it has no mineral δ18O yet and is not part of this average."</td>
+<td>δ¹⁸O AF</td>
+<td>Apply the acid fractionation correction again.</td>
+</tr>
+</tbody>
+</table>
+<p>With several sessions selected, a message that counts replicates names the sessions they
+are in: "4 of 11 replicates (session B) were standardized again after the Temperature
+Conversion…". With one session selected the name is left out.</p>
+<p>Undoing the change also clears "has changed", for example including again the replicate
+you excluded. It is the same rule as the red flag of the session list
+(<a href="#2-finding-your-way-around">chapter 2</a>).</p>
+<h3>Yellow: usable, with a note</h3>
+<p>A yellow value can be reported. Read the note, so you know what the value covers.</p>
+<table>
+<thead>
+<tr>
+<th>The tooltip says</th>
+<th>Applies to</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"This value is valid, but its standardization also used sessions that are not selected: <strong>B</strong>."</td>
+<td>Δ</td>
+<td>The value includes this sample's replicates in a session you did not select (after Pooled: any other session of that standardisation). It is correct, but n and SD in the row cover only the selection. Select B too to see everything behind the value.</td>
+</tr>
+<tr>
+<td>"Pooled and Independent were both used on the selected sessions. They use the same correction equation and differ in how it is fitted and how the error is estimated, so their values can be combined."</td>
+<td>Δ, combined runs</td>
+<td>Nothing to do. The weighted mean is valid.</td>
+</tr>
+<tr>
+<td>"Only 3 of 6 temperatures include the calibration uncertainty (it is missing in session B), so the T SE shown is incomplete. The temperatures themselves are valid…"</td>
+<td>T</td>
+<td>Run Temperature Conversion again with <strong>Propagate calibration uncertainties</strong> ticked if you need T SE.</td>
+</tr>
+<tr>
+<td>"…added after Bulk Standardization. It was given a temporary correction, taken from the session's last Bulk Standardization…"</td>
+<td>δ¹³C, δ¹⁸O</td>
+<td>New replicates take the session's stored correction until you run Bulk Standardization again. In practice this dot is orange, because the session has also changed.</td>
+</tr>
+</tbody>
+</table>
+<p>A green or yellow tooltip may add: "The SE is based on the scatter of every replicate in
+the standardization, including session B, which is not selected." The repeatability
+behind the SE came from the whole run. When the yellow reason above it already names
+those sessions, the note ends "…including that session." This is information only and
+never changes the colour.</p>
+<h3>Examples</h3>
+<p>Sessions A and B both measured the sample "Rock". Both are selected unless stated.</p>
+<table>
+<thead>
+<tr>
+<th>What you did</th>
+<th>Δ₄₇ of Rock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pooled on A and B together</td>
+<td>Green</td>
+</tr>
+<tr>
+<td>Pooled on A and B together, only A selected</td>
+<td>Yellow: the value includes B</td>
+</tr>
+<tr>
+<td>Pooled on A, then Pooled on B</td>
+<td>Green: the two values are combined</td>
+</tr>
+<tr>
+<td>Pooled on A, Independent on B</td>
+<td>Yellow: combined, different methods</td>
+</tr>
+<tr>
+<td>Pooled on A, Easotope ETF on B</td>
+<td>Orange: combined, different correction equations</td>
+</tr>
+<tr>
+<td>Pooled on A, Pooled with a drift term on B</td>
+<td>Green: drift terms are chosen per session</td>
+</tr>
+<tr>
+<td>Easotope ETF on A, Easotope ETF with a moving window on B</td>
+<td>Green: the options are chosen per session</td>
+</tr>
+<tr>
+<td>Pooled on A and B together, then Pooled on B alone</td>
+<td>Red: both values contain B</td>
+</tr>
+<tr>
+<td>Pooled on A with ETH 1–3, Pooled on B with ETH 1 and ETH 3</td>
+<td>Red: different standards</td>
+</tr>
+<tr>
+<td>Any green case, then a replicate excluded in A</td>
+<td>Orange: A has changed</td>
+</tr>
+</tbody>
+</table>
+<h3>In the export</h3>
+<ul>
+<li><strong>Two warnings, one per file.</strong> They open when you click <strong>Export</strong>, only for the
+  files you ticked. Each lists the samples by colour, most serious first.<ul>
+<li><strong>Summary: some values need your attention.</strong> Opens when <strong>Summary</strong> is ticked
+  and a value is not green. It follows the dots of the Summary tab: red, orange and
+  yellow.</li>
+<li><strong>Replicate list: some replicates need your attention.</strong> Opens when <strong>Replicate
+  list</strong> is ticked and a replicate needs it. This file lists every replicate as it is
+  stored and combines nothing, so it is never red. The window lists the reasons under
+  each line.<ul>
+<li><strong>Orange:</strong> replicates that are out of date or incomplete. Their session
+  changed since it was standardised, or they have no value yet (Δ, temperature
+  or mineral δ¹⁸O).</li>
+<li><strong>Yellow:</strong> replicates standardised together with sessions you did not select.
+  Their sample Δ, SE, CL95 and residual (and, after Pooled, the corrected Δ)
+  depend on those sessions. Add those sessions to the selection, or keep
+  <strong>Standardization runs</strong> ticked so the file says what was used. A temporary
+  bulk correction is yellow too.</li>
+<li>Ticking <strong>Replicate list</strong> also ticks <strong>Standardization runs</strong>; you can untick
+  it.</li>
+</ul>
+</li>
+<li>With both files ticked, the Replicate list warning comes first, then the Summary
+  one.</li>
+<li><strong>Continue</strong> (or <strong>Export</strong> on the last warning) goes on; <strong>Back</strong> returns to the
+  window without exporting. The warnings are a reminder, not a block.</li>
+<li>Plots, Session history and Standardization runs alone never warn.</li>
+</ul>
+</li>
+<li><strong>Averaging replicates yourself.</strong> The Replicate list has a <code>Session</code> column, and the
+  Standardization runs file says in <code>in_export</code> whether each session of a run is in the
+  export. If you average its Δ values across sessions, the red rules above become yours
+  to check: the <code>D47_run</code> column tells the standardisations apart.</li>
+<li><strong>The Summary file</strong> carries the light of every value
+  (<a href="#42-exporting-a-report">chapter 4.2</a>):<ul>
+<li><code>D47_sample</code>, <code>D47_SE</code>, <code>D47_CL95</code>: the values the Summary tab shows, combined
+  ones included;</li>
+<li><code>D47_status</code>: <code>green</code>, <code>yellow</code>, <code>orange</code> or <code>red</code>;</li>
+<li><code>D47_status_reason</code>: the reasons, as in the tooltip;</li>
+<li><code>D47_run</code>: the number of each standardisation behind the value, as listed in
+  the <strong>Standardization runs</strong> file;</li>
+<li>the same for Δ₄₈, and <code>_status</code> / <code>_status_reason</code> columns for <code>d13C</code>, <code>d18O</code>,
+  <code>d18O_AF</code> and <code>T_D47</code>.</li>
+</ul>
+</li>
+<li>With <strong>Anonymise samples</strong>, the lights follow the anonymised names.</li>
+</ul>
+<h3>What the traffic light does not check</h3>
+<p>A green dot does not cover these cases. Check them yourself.</p>
+<ul>
+<li><strong>T does not follow its Δ₄₇.</strong> A temperature can be green while the Δ₄₇ it was
+  converted from is orange or red. Look at both dots.</li>
+<li><strong>A standard's accepted value edited after a single standardisation.</strong> The stored
+  values still use the old one. Standardise again after editing a standard
+  (<a href="#7-settings">chapter 7</a>).</li>
+<li><strong>An acid reaction temperature edited after Bulk Standardization.</strong> δ¹⁸O still uses the
+  old temperature. Run Bulk Standardization again
+  (<a href="#51-the-δ¹⁸o-acid-fractionation-correction">chapter 5.1</a>).</li>
+<li><strong>A change in a partner session.</strong> After Pooled on A and B together, a change in B
+  turns only B orange. A sample measured only in A stays green, although a new run
+  would move its value slightly.</li>
+<li><strong>Whether separate runs agree.</strong> Combined values are not tested against each other.
+  If two sessions give values further apart than their errors allow, the combined SE is
+  too small.</li>
+<li><strong>The accepted values themselves.</strong> No SE includes the uncertainty of the standards'
+  accepted values.</li>
+</ul>
+<hr />
+</section>
+<section class="chapter" id="5-the-standardization-page">
+<h2>5. The Standardization page</h2>
+<p>This is where the processing happens: background correction, standardisation,
+temperatures, bulk isotopes and the δ¹⁸O acid correction. Each step is a <strong>card</strong>
+with its own <strong>Apply</strong> button.</p>
+<p><img loading="lazy" height="800" width="1300" alt="The Standardization page after a standardisation run on the demo session. Seven areas are marked in red and numbered: 1 the isotope-system menu in the top bar, set to Clumped Isotopes, 2 the session list with &quot;Synthetic Data&quot; selected, 3 the column of cards, showing Negative Background Correction, Standardization Protocol and the top of Temperature Conversion, 4 the Apply button of the first card, 5 the result box, which says &quot;Done! 62 rows updated across 1 session&quot; and lists the standards and the fitted parameters, 6 the Go to Explore and Go to History buttons, 7 the help box with the text of the &quot;?&quot; button next to &quot;Standardization Protocol&quot;." src="guide-images/standardization-page.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the isotope-system menu, <strong>2</strong> the session list, <strong>3</strong> the
+cards, <strong>4</strong> a card's Apply button, <strong>5</strong> the result box, <strong>6</strong> Go to Explore and
+Go to History, <strong>7</strong> the help box.</em></p>
+<h3>How the page works</h3>
+<ol>
+<li><strong>Choose the isotope system (1).</strong> It decides what you calibrate: Δ₄₇ for
+   Clumped Isotopes, Δ₄₇ and/or Δ₄₈ for Dual Clumped.</li>
+<li><strong>Select the session or sessions (2).</strong> A card is applied to every selected
+   session. Deactivated sessions are not in this list.</li>
+<li><strong>Work through the cards (3) from top to bottom.</strong> The lower cards appear when
+   you scroll the middle column. In each card, choose your options and click
+   <strong>Apply (4)</strong>.</li>
+<li><strong>Read the result box (5)</strong> after every Apply.</li>
+</ol>
+<p>Good to know:</p>
+<ul>
+<li><strong>Nothing is chosen for you.</strong> No method, standard, group or calibration is
+  ticked when you open the page.</li>
+<li><strong>Apply is greyed out</strong> until you choose the card's method, protocol or
+  calibration. While a card is working, the button reads <strong>Running…</strong>.</li>
+<li><strong>A green result box</strong> means the step was done. <strong>A red message</strong> means
+  something is missing; it tells you what.</li>
+</ul>
+<p><img loading="lazy" height="363" width="1068" alt="The Standardization Protocol card with &quot;Pooled Session standardization&quot; chosen and no standard ticked. Next to it, the result box is red and says &quot;Select at least one standard before standardizing.&quot;" src="guide-images/standardization-missing-standard.png" /></p>
+<h3>Help ("?") buttons</h3>
+<p>Every card, and most options, have a <strong>?</strong> button. Its text appears in the help
+box <strong>(7)</strong>.</p>
+<ul>
+<li><strong>Hover</strong> over a <strong>?</strong> to read its text.</li>
+<li><strong>Click</strong> it to keep that text in place while you work. Click another <strong>?</strong> to
+  switch, or the same one again to clear the box.</li>
+</ul>
+<p>Several help texts name the paper to cite when you use that method.</p>
+<h3>The result box and the two buttons</h3>
+<p>After a standardisation the result box <strong>(5)</strong> shows:</p>
+<ul>
+<li><strong>Done!</strong> and how many replicates (rows) were updated, in how many sessions;</li>
+<li><strong>Standards</strong>, <strong>Target</strong> and <strong>Drift varied:</strong> what you chose, plus <strong>ETF option</strong>
+  after an Easotope run;</li>
+<li><strong>Considered identical:</strong> for each standard, the sample names in your data that
+  were treated as that standard. Check this list. A name you did not expect
+  means a sample is being used as a standard. "No active replicates" means the
+  standard was ticked but has no usable replicate in the selected sessions;</li>
+<li><strong>Parameters:</strong> the fitted values, one table per session. Sessions with exactly
+  the same values share one table.</li>
+</ul>
+<p>The same record is kept in Session History (<a href="#43-session-history">chapter 4.3</a>).</p>
+<p>The two buttons <strong>(6)</strong> become active after a Standardization Protocol, Bulk
+Standardization or δ¹⁸O Acid Fractionation run:</p>
+<ul>
+<li><strong>Go to Explore</strong> opens the Explore page (<a href="#4-the-explore-page">chapter 4</a>)
+  for the sessions you just processed, with the plot already showing corrected
+  values.</li>
+<li><strong>Go to History</strong> opens their Session History tab.</li>
+</ul>
+<h3>What to run again after a change</h3>
+<p>The cards build on each other. When you run one again, some later results are
+cleared and others are left as they were.</p>
+<table>
+<thead>
+<tr>
+<th>You run again</th>
+<th>What happens to later results</th>
+<th>Then run again</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Negative Background Correction</td>
+<td>Δ₄₇ raw is recalculated. <strong>Everything after it is cleared:</strong> standardised Δ, temperatures, standardised δ¹³C and δ¹⁸O, δ¹⁸O AF</td>
+<td>every card you use</td>
+</tr>
+<tr>
+<td>Standardization Protocol</td>
+<td>Standardised Δ is replaced. <strong>Temperatures are cleared</strong>, because they were calculated from the previous Δ₄₇</td>
+<td>Temperature Conversion</td>
+</tr>
+<tr>
+<td>Temperature Conversion</td>
+<td>Temperatures are replaced</td>
+<td>nothing</td>
+</tr>
+<tr>
+<td>Bulk Standardization</td>
+<td>Standardised δ¹³C and δ¹⁸O are replaced. δ¹⁸O AF is cleared</td>
+<td>δ¹⁸O Acid Fractionation Correction</td>
+</tr>
+<tr>
+<td>δ¹⁸O Acid Fractionation Correction</td>
+<td>δ¹⁸O AF is replaced</td>
+<td>nothing</td>
+</tr>
+</tbody>
+</table>
+<p>Bulk Standardization and the Standardization Protocol do not affect each other.</p>
+<p>Excluding or including a replicate also makes a standardisation out of date
+(red flag, <a href="#2-finding-your-way-around">chapter 2</a>). Run the Standardization
+Protocol again, then Temperature Conversion.</p>
+<h3>Card: Negative Background Correction</h3>
+<p>Real data has a negative background on m/z 47. DELTALab removes it from every
+cycle with the m/z 47.5 half-mass beam:</p>
+<p><code>V47 new = V47 − factor × V47.5</code></p>
+<p>The card needs data that was imported with its raw acquisitions. Choose <strong>one</strong>
+of three methods and click <strong>Apply</strong>.</p>
+<p><img loading="lazy" height="299" width="1068" alt="The Negative Background Correction card with &quot;Apply minimizer (Bernecker et al., 2023)&quot; chosen and the standard groups &quot;Gas group 1&quot;, &quot;Gas group 2&quot; and &quot;Carbonates group 1&quot; ticked. The fixed-factor box and the scan-based option are not in use. Next to the card, the green result box says &quot;Optimized mass 47 for 1 session(s) using group(s): Gas group 1, Gas group 2, Carbonates group 1.&quot;" src="guide-images/standardization-negbg.png" /></p>
+<ul>
+<li><strong>Apply fixed scaling factors.</strong> Type the mass-47 factor. It is applied to
+  every selected session. <strong>Type a positive number.</strong> This is different from
+  Easotope.</li>
+<li><strong>Apply minimizer (Bernecker et al., 2023).</strong> DELTALab finds, for each selected
+  session, the factor that makes Δ₄₇ raw flattest against δ⁴⁷ within each group
+  of standards.<ul>
+<li>Tick the <strong>Standard groups</strong> to use.</li>
+<li>Groups come from the <strong>Neg. Bkg eval.</strong> column of <strong>Settings → Reference
+  material</strong> (<a href="#7-settings">chapter 7</a>). Put standards that were heated or
+  equilibrated at the same temperature in the same group.</li>
+<li>A "Gas" group needs at least one standard; any other group needs at least
+  two. A group with too few is left out.</li>
+<li>The factor that was found is written in Session History
+  (<a href="#43-session-history">chapter 4.3</a>).</li>
+</ul>
+</li>
+<li><strong>Scan-based correction (Bernasconi et al., 2013).</strong> Uses fitted HV scans instead
+  of the half-mass beam. It is meant mainly for instruments without an m/z 47.5
+  cup.<ul>
+<li>It works on <strong>exactly one session at a time</strong>. With no session or several
+  selected, the card says "Select exactly one session to manage its scans."</li>
+<li>The session needs at least one fitted scan set
+  (<a href="#61-scans-and-the-pressure-baseline-correction">chapter 6.1</a>). Without one,
+  the card says "No scans for this session."</li>
+<li>Tick the <strong>Scan sets</strong> to use, then choose how to <strong>Combine sets</strong>:
+  <strong>Nearest</strong>, <strong>Average</strong> or <strong>Interpolate</strong>. Choose one even if you ticked a
+  single set.</li>
+</ul>
+</li>
+</ul>
+<p><strong>After Apply,</strong> Δ₄₇ raw is recalculated and everything after this card is
+cleared. Run the cards below again.</p>
+<h3>Card: Standardization Protocol</h3>
+<p>Fits the Δ₄₇ raw of your standards to their accepted values, then applies that fit
+to every replicate.</p>
+<p><img loading="lazy" height="363" width="1068" alt="The Standardization Protocol card with the standards 1000C, 25C, ETH 1 and ETH 2 ticked, ETH 3 not ticked and &quot;Pooled Session standardization (Daëron, 2021)&quot; chosen. Below it are &quot;Independent Session standardization&quot;, the drift boxes and, under a dividing line, &quot;Easotope ETF standardization (John &amp; Bowen, 2016)&quot; with its greyed-out options. Next to the card, the green result box says &quot;Done! 62 rows updated across 1 session&quot;, lists the standards, the target &quot;mass 47&quot;, &quot;Drift varied: none&quot;, the names considered identical to each standard, and a Parameters table for Δ47 with Scrambling factor (a), Compositional slope (b) and Reference offset (c)." src="guide-images/standardization-protocol.png" /></p>
+<ol>
+<li><strong>Tick the Standards.</strong> The list shows every reference material from
+   <strong>Settings → Reference material</strong> (<a href="#7-settings">chapter 7</a>), whether or not
+   the selected sessions contain it. This choice has nothing to do with which
+   standards are drawn in the plots.</li>
+<li><strong>Choose the protocol.</strong><ul>
+<li><strong>Pooled Session standardization (Daëron, 2021).</strong> All selected sessions
+  are fitted together. Each session keeps its own fit, but an unknown
+  measured in several sessions gets one shared Δ₄₇. Use this when your
+  sessions share standards.</li>
+<li><strong>Independent Session standardization (Daëron, 2021).</strong> Each session is
+  fitted on its own, from its own standards. An unknown measured in several
+  sessions is reported as the weighted average of its per-session values.</li>
+<li><strong>Easotope ETF standardization (John &amp; Bowen, 2016).</strong> Easotope's empirical
+  transfer function. Each session is fitted on its own with a straight line from
+  Δ₄₇ raw to the standards' accepted values, with no δ⁴⁷ term and no drift. Each
+  standard replicate is corrected by the line fitted without itself; every other
+  replicate uses the whole-session line.</li>
+</ul>
+</li>
+<li><strong>Allow temporal drift in a / b / c</strong> (optional, Pooled and Independent only). Tick a
+   coefficient to let it change steadily over time within the fit. <strong>a</strong> is the
+   scrambling factor, <strong>b</strong> the compositional slope and <strong>c</strong> the reference offset, as
+   named in the result box.</li>
+<li>Click <strong>Apply</strong>.</li>
+</ol>
+<p><strong>The Easotope options.</strong> Two boxes under the Easotope choice change how its lines are
+fitted. You can tick one of them or neither.</p>
+<p><img loading="lazy" height="363" width="1068" alt="The Standardization Protocol card with the standards 1000C, 25C, ETH 1 and ETH 2 ticked and &quot;Easotope ETF standardization (John &amp; Bowen, 2016)&quot; chosen, the Moving window box ticked with the number 10 next to it, and the Average standards first box not ticked. The drift boxes above are greyed out. Next to the card, the green result box says &quot;Done! 62 rows updated across 1 session&quot;, lists the standards and the target, says &quot;Drift varied: none&quot; and &quot;ETF option: moving window, 10 standards&quot;, and shows no Parameters table." src="guide-images/standardization-easotope.png" /></p>
+<ul>
+<li><strong>Moving window:</strong> each replicate gets its own line, fitted on the N nearest standard
+  replicates before it and the N after it. Type N in the box; it starts at 10. There is
+  no session line, so the result box has no <strong>Parameters</strong> table, and replicates you
+  import later stay blank until the next run. If a window holds fewer than two different
+  standards, the run is refused and nothing changes.</li>
+<li><strong>Average standards first:</strong> each standard's replicates are averaged, then one line
+  is fitted through those means.</li>
+</ul>
+<p>Any protocol replaces the standardised Δ₄₇ of the selected sessions and
+<strong>clears their temperatures</strong>, which were calculated from the previous Δ₄₇.
+T (°C) and T SE show "—" until you run <strong>Temperature Conversion</strong> again.</p>
+<h3>Card: Temperature Conversion</h3>
+<p>Converts the standardised Δ₄₇ of your samples to °C.</p>
+<p><img loading="lazy" height="315" width="1068" alt="The Temperature Conversion card. Under &quot;Polynomial in 1/T&quot;, &quot;OGLS23 — Daëron &amp; Vermeesch (2024)&quot; is chosen, &quot;INTERCARBS — Anderson et al. (2021)&quot; is not, and &quot;Propagate calibration uncertainties (Daëron &amp; Vermeesch, 2024)&quot; is ticked. Under &quot;Scaled Theoretical Curve&quot;, &quot;Fiebig et al. (2024)&quot; and its own propagate box are not chosen. Next to the card, the green result box says &quot;Temperature computed for 11 replicate(s) across 1 session(s) using OGLS23 — Daëron &amp; Vermeesch (2024). 51 reference material replicate(s) excluded.&quot;" src="guide-images/standardization-temperature.png" /></p>
+<ol>
+<li>Pick <strong>one</strong> calibration. You can only pick one across all groups.</li>
+<li>Tick <strong>Propagate calibration uncertainties</strong> under that group if you want an
+   uncertainty for each temperature.</li>
+<li>Click <strong>Apply</strong>.</li>
+</ol>
+<p>Good to know:</p>
+<ul>
+<li><strong>Run standardisation first.</strong> Raw Δ is never converted. Otherwise a red
+  message tells you to.</li>
+<li><strong>Only Δ₄₇ is converted</strong>, even on Dual Clumped. Δ₄₈ is never used for
+  temperature.</li>
+<li><strong>Standards get no temperature.</strong> Every sample named in the Reference material
+  table is left out, and the result box says how many replicates that was.</li>
+<li>You manage the list of calibrations in <strong>Settings → Temperature calibrations</strong>
+  (<a href="#7-settings">chapter 7</a>), not here.</li>
+<li>Temperatures outside a calibration's range are still calculated.</li>
+</ul>
+<p>The calibrations are grouped by type:</p>
+<ul>
+<li><strong>Polynomial in 1/T:</strong> <code>Δ = a0 + a1·x + a2·x²</code>, with <code>x = 1/T</code>. Shipped
+  examples: <strong>OGLS23 (Daëron &amp; Vermeesch, 2024)</strong> and <strong>INTERCARBS (Anderson et
+  al., 2021)</strong>.</li>
+<li><strong>Scaled Theoretical Curve:</strong> a fixed theoretical curve with only an offset and
+  a scale fitted. Shipped example: <strong>Fiebig et al. (2024)</strong>.</li>
+</ul>
+<p><strong>Propagate calibration uncertainties</strong> adds a <strong>T SE</strong> column. It combines the
+replicate's Δ uncertainty with the calibration's own uncertainty. Notes at the
+bottom of the card warn you about any limits:</p>
+<ul>
+<li><strong>Empty error bar:</strong> there was no uncertainty information at all. T SE is left
+  empty (not zero).</li>
+<li><strong>Calibration-only / Analytical-only:</strong> one of the two uncertainty sources was
+  missing, so T SE is too small.</li>
+<li><strong>Approximate calibration error:</strong> the calibration only has a published 1σ for
+  each coefficient, not the full covariance matrix. The error bar comes out about
+  3–4 times too large.</li>
+</ul>
+<h3>Card: Bulk Standardization</h3>
+<p>Standardises δ¹³C and δ¹⁸O. Each session is fitted on its own.</p>
+<p><img loading="lazy" height="267" width="1068" alt="The Bulk Standardization card with the standards ETH 1 and ETH 3 ticked and &quot;Two-point standardization&quot; chosen. Next to the card, the green result box says &quot;Done! 62 rows updated across 1 session (2pt)&quot;, lists the standards and the names considered identical to them, and shows a Parameters table with a δ13C and a δ18O column and the rows Slope (a), Intercept (b) and Acid α (standards)." src="guide-images/standardization-bulk.png" /></p>
+<ol>
+<li><strong>Tick the Standards.</strong> This list is separate from the one in the
+   Standardization Protocol card. Tick standards that have δ¹³C and δ¹⁸O values
+   in the Reference material table.</li>
+<li><strong>Choose the method.</strong><ul>
+<li><strong>Two-point standardization:</strong> fits a straight line through all the standard
+  replicates.</li>
+<li><strong>One-point offset standardization:</strong> shifts every value by the average
+  difference between the standards' measured and accepted values.</li>
+</ul>
+</li>
+<li>Click <strong>Apply</strong>.</li>
+</ol>
+<p>Both methods use every standard you tick. Raw values are never changed, so you can
+run this again at any time. A session whose standards have no usable bulk values is
+skipped, not treated as an error.</p>
+<p><strong>How δ¹⁸O is fitted (same as D47crunch):</strong> the standards' δ¹⁸O values in the
+Reference material table are carbonate values. You can enter them on VPDB or on VSMOW
+(a VPDB value is converted to VSMOW when you save, and the app calculates with the VSMOW
+value). The instrument measures the CO₂ released by acid digestion, on VSMOW. So each
+standard's accepted value is first converted to that CO₂ value:</p>
+<p><code>δ¹⁸O CO₂ (VSMOW) = (1000 + δ¹⁸O carbonate (VSMOW)) · α − 1000</code></p>
+<p>α is the calcite acid fractionation factor (<strong>Settings → Acid Fractionations</strong>)
+at the session's acid reaction temperature.  δ¹⁸O corr is therefore a CO₂ value on VSMOW.</p>
+<h3>Card: δ¹⁸O Acid Fractionation Correction</h3>
+<p>Converts standardised δ¹⁸O from the CO₂ produced by acid digestion into the
+mineral's own δ¹⁸O, using the mineral you pick for each sample and the session's
+acid reaction temperature.</p>
+<p><img loading="lazy" height="225" width="1068" alt="The δ18O Acid Fractionation Correction card. It lists seven sample names in three columns, each with a mineral menu: ETH 3, ETH 1 and Sample A set to Calcite, Sample B set to Aragonite, and 1000C, 25C and ETH 2 set to &quot;—&quot;. Next to the card, the green result box says &quot;Done! 33 rows corrected across 1 session&quot;, &quot;Reaction temp: 90°C&quot;, &quot;Skipped: 29 unassigned samples&quot;, and shows a Minerals table with the columns Mineral, Samples, α and δ18O shift/row, with one row for Aragonite and one for Calcite." src="guide-images/standardization-acid.png" /></p>
+<ol>
+<li>Run <strong>Bulk Standardization</strong> first. Until then the list is greyed out and the
+   card says so.</li>
+<li>Pick a mineral next to each sample. Standards are listed first. Leave "—" for
+   anything you do not want corrected.</li>
+<li>Click <strong>Apply</strong>.</li>
+</ol>
+<p>Good to know:</p>
+<ul>
+<li>The result goes into its own <strong>δ¹⁸O AF</strong> column; δ¹⁸O corr is not changed.</li>
+<li><strong>Your choice of mineral is remembered</strong> for each sample name and filled in
+  the next time you open the page.</li>
+<li>The result box shows the reaction temperature used, how many replicates were
+  skipped because they have no mineral, and one line per mineral with its α and
+  its average shift.</li>
+</ul>
+<p><a href="#51-the-δ¹⁸o-acid-fractionation-correction">Chapter 5.1</a> covers the whole
+workflow.</p>
+<h3>Dual Clumped: what changes</h3>
+<p>With <strong>Dual Clumped</strong> chosen in the top bar, the first two cards gain controls
+for Δ₄₈.</p>
+<p><img loading="lazy" height="747" width="708" alt="The Negative Background Correction and Standardization Protocol cards in Dual Clumped. Three additions are marked in red and numbered: 1 a second factor box, &quot;mass 48&quot;, next to &quot;mass 47&quot; on the fixed scaling factors line, 2 the &quot;mass 47&quot; and &quot;mass 48&quot; buttons next to &quot;Apply minimizer&quot;, both ticked, 3 a &quot;Target&quot; line with the buttons Δ47 and Δ48, both ticked, between the standards and the protocols." src="guide-images/standardization-dual.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the mass-48 factor, <strong>2</strong> the masses the minimizer works
+on, <strong>3</strong> the Target.</em></p>
+<ul>
+<li><strong>Fixed scaling factors (1):</strong> a second box for the mass-48 factor.</li>
+<li><strong>Minimizer (2):</strong> choose mass 47, mass 48 or both. The two are found
+  separately, from the same standard groups.</li>
+<li><strong>Target (3):</strong> standardise Δ₄₇, Δ₄₈ or both, with any of the three protocols. Both
+  are ticked at the start. The result box then shows a column of parameters for each. A run with only
+  Δ₄₈ ticked leaves Δ₄₇ and the temperatures as they were.</li>
+<li><strong>Scan-based correction</strong> only lists scan sets that have a fit for mass 48 as
+  well as mass 47.</li>
+</ul>
+<p>Temperature Conversion, Bulk Standardization and the δ¹⁸O acid correction work
+the same in both systems.</p>
+<hr />
+</section>
+<section class="chapter" id="51-the-δ¹⁸o-acid-fractionation-correction">
+<h2>5.1 The δ¹⁸O acid fractionation correction</h2>
+<p>Carbonates are measured as the CO₂ released when they react with phosphoric acid.
+That CO₂ is richer in ¹⁸O than the mineral it came from, by an amount that depends
+on the mineral and on the reaction temperature. The <strong>δ¹⁸O Acid Fractionation
+Correction</strong> removes that offset and gives you the δ¹⁸O of the mineral itself.</p>
+<p>The result goes into its own column, <strong>δ¹⁸O AF</strong>. Nothing else changes: δ¹⁸O
+corr, δ¹³C, Δ₄₇, Δ₄₈ and temperatures stay exactly as they were.</p>
+<h3>The equation</h3>
+<p>For each replicate DELTALab computes the acid fractionation factor α of the
+sample's mineral at its session's reaction temperature:</p>
+<p><code>1000 ln α = a·10⁶/T² + b·10³/T + c</code></p>
+<ul>
+<li><code>T</code> is the session's acid reaction temperature in kelvin (°C + 273.15).</li>
+<li><code>a</code>, <code>b</code> and <code>c</code> are the mineral's constants from <strong>Settings → Acid
+  Fractionations</strong>.</li>
+</ul>
+<p>Then it computes the mineral value from the standardised one:</p>
+<p><code>δ¹⁸O AF = (δ¹⁸O corr + 1000) / α − 1000</code></p>
+<p>At 90 °C, calcite gives α ≈ 1.00813: a δ¹⁸O corr of 30.00 ‰ gives a δ¹⁸O AF of
+about 21.70 ‰.</p>
+<h3>Before you start: standard δ¹⁸O values are carbonate values</h3>
+<p>The correction treats <strong>δ¹⁸O corr as the δ¹⁸O of the CO₂</strong>. Bulk Standardization
+makes it one: it converts each standard's accepted carbonate value into the CO₂ it
+releases, using calcite's α at the session's reaction temperature (<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<p>The δ¹⁸O values shipped for ETH-1 to ETH-3 in the Standards table are carbonate
+values on VPDB, as published. If you add your own bulk standards (<strong>Settings →
+Reference material</strong>), enter their δ¹⁸O as carbonate values on VPDB too. A CO₂
+value there would be shifted by α a second time.</p>
+<p>Because the standards go through the same α, a standard whose mineral is set to
+calcite gets back its own accepted value in δ¹⁸O AF.</p>
+<h3>Overview of the workflow</h3>
+<ol>
+<li><strong>Settings → Acid Fractionations:</strong> check that every mineral you need is in
+   the list, with the right constants and reference. Done once, not per session.</li>
+<li><strong>Sessions Editor:</strong> set each session's acid reaction temperature.</li>
+<li><strong>Standardization page:</strong> run <strong>Bulk Standardization</strong>.</li>
+<li><strong>Standardization page:</strong> pick a mineral for each sample on the <strong>δ¹⁸O Acid
+   Fractionation Correction</strong> card and click <strong>Apply</strong>.</li>
+<li>Read the result box, then check the values: pick <strong>δ¹⁸O AF</strong> in the Replicates
+   list's δ¹⁸O menu, or look at the Summary table's δ¹⁸O AF column.</li>
+</ol>
+<p>Steps 1 and 2 can be done in any order, but both must be done before step 4.</p>
+<h3>Step 1: Check the minerals in Settings</h3>
+<p>Open <strong>Settings</strong> and find the <strong>Acid Fractionations</strong> table. Each row is one
+mineral with its reference and its three constants. DELTALab ships with:</p>
+<table>
+<thead>
+<tr>
+<th>Mineral</th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calcite</td>
+<td>0</td>
+<td>3.59</td>
+<td>−1.79</td>
+<td>Kim, Mucci &amp; Taylor (2007)</td>
+</tr>
+<tr>
+<td>Aragonite</td>
+<td>0</td>
+<td>3.39</td>
+<td>−0.83</td>
+<td>Kim, Mucci &amp; Taylor (2007)</td>
+</tr>
+<tr>
+<td>Magnesite</td>
+<td>0.6845</td>
+<td>0</td>
+<td>4.22</td>
+<td>Das Sharma, Patil &amp; Gopalan (2002)</td>
+</tr>
+</tbody>
+</table>
+<p>These are ordinary entries: you can edit or delete them like any other.</p>
+<p><strong>To add a mineral:</strong></p>
+<ol>
+<li>Click <strong>Add</strong> next to the table title.</li>
+<li>Type the <strong>Mineral</strong> name, for example <code>Dolomite</code>.</li>
+<li>Type the <strong>Reference</strong>: the paper the equation comes from. It is required.</li>
+<li>Type <code>a</code>, <code>b</code> and <code>c</code> (see the next section). Use <code>0</code> for a term the paper's
+   equation doesn't have; a blank field is refused.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p><strong>To edit or delete a mineral:</strong> click the pencil icon on its row. The window
+has the same fields, plus <strong>Delete mineral</strong> at the bottom left.</p>
+<p>A reference shown as <strong>Missing</strong> in red belongs to a mineral carried over from an
+older version of DELTALab. Edit it and type the source paper.</p>
+<blockquote>
+<p><strong>Editing a mineral does not change values already corrected with it.</strong> The
+constants are read when you click <strong>Apply</strong>. Click <strong>Apply</strong> again to bring
+existing values in line.</p>
+</blockquote>
+<h3>Turning a published equation into a, b and c</h3>
+<p>Papers give the acid fractionation factor in a few different ways. Rewrite the
+paper's equation so that it reads <code>1000 ln α = …</code>, then read off:</p>
+<ul>
+<li><code>a</code>: the number in front of <code>10⁶/T²</code>;</li>
+<li><code>b</code>: the number in front of <code>10³/T</code>;</li>
+<li><code>c</code>: the number that stands on its own.</li>
+</ul>
+<p><strong>Example 1: Das Sharma, Patil &amp; Gopalan (2002), magnesite.</strong> The paper's form is</p>
+<p><code>α = exp((4.22 + 6.845·10⁵/T²) / 1000)</code></p>
+<ol>
+<li>Take the natural log of both sides: <code>ln α = (4.22 + 6.845·10⁵/T²) / 1000</code>.</li>
+<li>Multiply both sides by 1000: <code>1000 ln α = 4.22 + 6.845·10⁵/T²</code>.</li>
+<li>Write <code>6.845·10⁵/T²</code> as <code>0.6845 · 10⁶/T²</code>.</li>
+<li>Read off <code>a = 0.6845</code>, <code>b = 0</code>, <code>c = 4.22</code>.</li>
+</ol>
+<p><strong>Example 2: Kim, Mucci &amp; Taylor (2007), calcite.</strong> The paper gives
+<code>1000 ln α = 3.59 · (10³/T) − 1.79</code>, which already has the right form:
+<code>a = 0</code>, <code>b = 3.59</code>, <code>c = −1.79</code>.</p>
+<p>The same equation is sometimes written as <code>α = exp(3.59/T − 1.79·10⁻³)</code>. Multiply
+the exponent by 1000 and you get <code>3.59·10³/T − 1.79</code>, so <code>c</code> is still <code>−1.79</code>.</p>
+<blockquote>
+<p><strong>Watch the factor of 1000.</strong> It is the most common way to get a constant wrong.
+<code>c</code> is <code>−1.79</code>, not <code>−0.00179</code>, and <code>b</code> is <code>3.59</code>, not <code>3590</code>. A quick check:
+at 90 °C a carbonate's α should lie roughly between 1.007 and 1.011. The
+<strong>α</strong> column in the result box (step 4) shows the value actually used.</p>
+</blockquote>
+<h3>Step 2: Set each session's acid reaction temperature</h3>
+<p>Each session stores the temperature of its acid bath.</p>
+<ol>
+<li>Open <strong>Sessions Editor</strong> in the top bar and click the session on the left.</li>
+<li>Click <strong>Edit</strong>. The <strong>Edit session</strong> window opens.</li>
+<li>Under <strong>Acid reaction temperature</strong>, type the temperature in °C.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+<p>Good to know:</p>
+<ul>
+<li><strong>If you never set a temperature, 90 °C is used.</strong> The box is then empty.</li>
+<li>Saving a temperature recalculates nothing. It takes effect the next time you
+  run <strong>Bulk Standardization</strong> (the standards' α) and click <strong>Apply</strong> on the
+  correction card (the samples' α). Re-run both after changing it.</li>
+<li>Different sessions can have different temperatures. When you correct several
+  sessions at once, each replicate uses its own session's temperature.</li>
+</ul>
+<h3>Step 3: Run Bulk Standardization</h3>
+<p>The correction works on standardised δ¹⁸O (<strong>δ¹⁸O corr</strong>), never on the raw value.
+Run the <strong>Bulk Standardization</strong> card for your sessions first (<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<p>Until at least one selected session has been bulk standardised, the correction
+card is greyed out and says so.</p>
+<h3>Step 4: Assign minerals and apply</h3>
+<p>On the Standardization page, select your sessions in the list on the left, then
+scroll to the <strong>δ¹⁸O Acid Fractionation Correction</strong> card (below Bulk
+Standardization).</p>
+<p>The card lists every sample in the selected sessions, in three columns.
+<strong>Standards are listed first</strong>, then your other samples. Next to each sample is a
+menu of the minerals from Settings.</p>
+<ol>
+<li>Pick a mineral for each sample you want to correct.<ul>
+<li>Leave a sample on <strong>—</strong> to skip it. It gets no δ¹⁸O AF value (or keeps the
+  one from an earlier Apply).</li>
+<li>Standards can be corrected too; they are listed first only to keep them
+  together.</li>
+</ul>
+</li>
+<li>Click <strong>Apply</strong> at the top right of the card.</li>
+</ol>
+<p><strong>Apply</strong> stays disabled until at least one sample has a mineral.</p>
+<p><strong>DELTALab remembers your choices.</strong> When you click <strong>Apply</strong>, every sample's
+mineral is saved and filled in the next time you open the card, for any session
+containing that sample. To change a sample's mineral, pick a different one.
+Choosing <strong>—</strong> only clears it for this visit; the saved mineral comes back next
+time.</p>
+<h3>Reading the result</h3>
+<p>After <strong>Apply</strong>, a result box opens under the page header:</p>
+<ul>
+<li><strong>Done! N rows corrected across M sessions.</strong></li>
+<li><strong>Reaction temp:</strong> the temperature used. One value if every session shared it,
+  otherwise one per session, for example <code>Run A: 90°C, Run B: 70°C</code>.</li>
+<li><strong>Skipped</strong> (only if something was skipped):<ul>
+<li><em>unassigned samples</em>: replicates whose sample had no mineral;</li>
+<li><em>samples not yet bulk standardized</em>: replicates with no δ¹⁸O corr yet,
+  usually from a session you haven't bulk standardised. They get no δ¹⁸O AF.</li>
+</ul>
+</li>
+<li><strong>Minerals:</strong> a table with one row per mineral used in this run:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mineral</td>
+<td>The mineral's name</td>
+</tr>
+<tr>
+<td>Samples</td>
+<td>How many replicates were corrected with it</td>
+</tr>
+<tr>
+<td>α</td>
+<td>The fractionation factor used. Two values separated by <code>/</code> mean the mineral was applied at two different session temperatures</td>
+</tr>
+<tr>
+<td>δ¹⁸O shift</td>
+<td>The average of δ¹⁸O AF − δ¹⁸O corr per replicate, in ‰. It is negative: the mineral is lighter than its CO₂</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Go to Explore</strong> and <strong>Go to History</strong> take you to the corrected values and to
+the log entry.</p>
+<h3>Where the corrected values appear</h3>
+<ul>
+<li><strong>Replicates</strong> (<a href="#4-the-explore-page">chapter 4</a>): choose <strong>δ¹⁸O AF</strong> in the menu
+  of the δ¹⁸O column header.
+  Hover over a value to see the δ¹⁸O corr and raw values behind it.</li>
+<li><strong>Summary table:</strong> a <strong>δ¹⁸O AF</strong> column appears right after δ¹⁸O as soon as any
+  replicate in view has a corrected value. It is the sample mean; a sample never
+  corrected shows "—".</li>
+<li><strong>Plots:</strong> the δ¹⁸O plot on the δ¹⁸O tab shows δ¹⁸O corr, not δ¹⁸O
+  AF.</li>
+<li><strong>Export report:</strong> the replicates table has a <code>d18O_AF</code> column, and the summary
+  has <code>d18O_AF_mean</code> and <code>d18O_AF_std</code>. They are blank for samples never
+  corrected.</li>
+<li><strong>Session History:</strong> each session gets a <strong>δ¹⁸O AFF</strong> entry with the
+  minerals, the reaction temperature and the number of replicates corrected.</li>
+</ul>
+<p>The correction never changes the raw δ¹⁸O (<a href="#1-key-words">chapter 1</a>).</p>
+<h3>Changing or redoing a correction</h3>
+<p><strong>Apply</strong> always starts from δ¹⁸O corr, never from an earlier δ¹⁸O AF. So you
+can click it as often as you like: the same minerals and temperatures always give
+the same result.</p>
+<ul>
+<li><strong>After changing a sample's mineral, a mineral's constants or a session's
+  temperature:</strong> click <strong>Apply</strong> again. The new values replace the old ones.</li>
+<li><strong>After re-running Bulk Standardization:</strong> δ¹⁸O AF is cleared for the
+  replicates it standardised, because it was computed from the old δ¹⁸O corr. Your
+  minerals are still filled in on the card; click <strong>Apply</strong> again.</li>
+<li><strong>Importing new replicates or reprocessing a session</strong> also leaves those
+  replicates without a δ¹⁸O AF until you apply again.</li>
+</ul>
+<blockquote>
+<p><strong>Sessions corrected before this version.</strong> Earlier versions wrote the
+correction over δ¹⁸O corr itself. For a session corrected that way, re-run
+<strong>Bulk Standardization</strong> once to restore δ¹⁸O corr, then click <strong>Apply</strong>.</p>
+</blockquote>
+<h3>Quick checklist</h3>
+<ul>
+<li>[ ] The minerals you need are in <strong>Settings → Acid Fractionations</strong>, each with
+  a reference.</li>
+<li>[ ] Your bulk standards' δ¹⁸O values are carbonate values on VPDB.</li>
+<li>[ ] Every session has the right acid reaction temperature (default 90 °C).</li>
+<li>[ ] <strong>Bulk Standardization</strong> has been run.</li>
+<li>[ ] Every sample to correct has a mineral on the card.</li>
+<li>[ ] <strong>Apply</strong> clicked since the last Bulk Standardization.</li>
+<li>[ ] The <strong>α</strong> values in the result box look sensible (≈ 1.007–1.011 at 90 °C).</li>
+</ul>
+<hr />
+</section>
+<section class="chapter" id="6-the-sessions-editor">
+<h2>6. The Sessions Editor</h2>
+<p>The <strong>Sessions Editor</strong> is where you fix how your data is organised: a session's
+name, instrument and reference gas, a mislabelled sample, a replicate that landed
+in the wrong session, a session that should be two. It is also where you set a session
+aside, or delete data.</p>
+<p>It is the safe place for these changes. Every edit here also updates the raw
+acquisitions and marks the standardisation as out of date when it should be.</p>
+<p>Open <strong>Sessions Editor</strong> in the top bar and click a session on the left. You work
+on one session at a time.</p>
+<p><img loading="lazy" height="700" width="1300" alt="The Sessions Editor with the demo session &quot;Synthetic Data&quot; open. Six areas are marked in red and numbered: 1 the session list on the left, 2 the session name, 3 the buttons after &quot;Session:&quot;, which are Edit, Split, Merge, Deactivate and Delete, 4 the buttons after &quot;Replicates:&quot;, which are Move, Rename and Delete and are greyed out, 5 the column of tick boxes on the left of the table, 6 the Sample column." src="guide-images/sessions-editor-page.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the session list, <strong>2</strong> the session name, <strong>3</strong> the session
+buttons, <strong>4</strong> the replicate buttons, <strong>5</strong> the tick boxes, <strong>6</strong> the sample names.</em></p>
+<h3>The page at a glance</h3>
+<ul>
+<li><strong>The session list (1)</strong> works like the one on the Explore page, but you pick
+  one session only.</li>
+<li><strong>The session name (2)</strong> is pale grey when the session is deactivated.</li>
+<li><strong>The session buttons (3)</strong> act on the whole session: <strong>Edit</strong> opens the <strong>Edit
+  session</strong> window, then <strong>Split</strong>, <strong>Merge</strong>, <strong>Deactivate</strong> and <strong>Delete</strong>.</li>
+<li><strong>The replicate buttons (4)</strong> act on the replicates you ticked: <strong>Move</strong>, <strong>Rename</strong>
+  and <strong>Delete</strong>.</li>
+<li><strong>The tick boxes (5)</strong> choose replicates. The box in the header ticks or clears
+  all of them.</li>
+<li><strong>A sample name (6)</strong> opens that replicate's acquisitions window, the same one
+  as in the Replicates
+  (<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>).</li>
+</ul>
+<p>The table shows one row per replicate. <strong>Δ₄₇</strong> and <strong>Δ₄₈</strong> are the standardised
+values; they show "—" until the session is standardised. δ¹³C and δ¹⁸O turn bold
+once they are standardised; hover one to see its raw value.</p>
+<p><strong>One rule decides which buttons work:</strong></p>
+<ul>
+<li><strong>Nothing ticked:</strong> the session buttons work. The replicate buttons are greyed out.</li>
+<li><strong>One or more replicates ticked:</strong> the replicate buttons work. The session buttons
+  are greyed out until you clear the ticks.</li>
+</ul>
+<p>After each change, a line under the buttons tells you what was done.</p>
+<h3>What each action does to your results</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Values recalculated</th>
+<th>Run standardisation again</th>
+<th>Safety backup first</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rename the session</td>
+<td>no</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Change the mass spectrometer</td>
+<td>no</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Change the reference gas</td>
+<td>yes</td>
+<td>yes</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Change the acid reaction temperature</td>
+<td>no</td>
+<td>only Bulk Standardization and the δ¹⁸O acid correction</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Split</td>
+<td>no (the numbers stay the same)</td>
+<td>yes, every part</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Merge</td>
+<td>yes, the replicates merged in</td>
+<td>yes, the merged session</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Deactivate, Activate</td>
+<td>no</td>
+<td>no</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Delete the session</td>
+<td>—</td>
+<td>—</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Move</td>
+<td>no</td>
+<td>yes, both sessions</td>
+<td>no</td>
+</tr>
+<tr>
+<td>Rename (sample name)</td>
+<td>no</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>Delete replicates</td>
+<td>no</td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A new reference gas or a split clears the session's standardised values and
+temperatures.</strong> Δ₄₇ shows "—" until you run standardisation again
+(<a href="#5-the-standardization-page">chapter 5</a>). The session gets no red flag
+(<a href="#2-finding-your-way-around">chapter 2</a>), because nothing out of date is left
+on screen.</p>
+<p><strong>Move, Rename and Delete replicates leave every value where it is</strong> and give the
+session a red flag. The standardised values on screen are then out of date until you
+run standardisation again.</p>
+<p>Safety backups are restored with <strong>Settings → Restore backup</strong>
+(<a href="#8-backups-restore-and-updates">chapter 8</a>).</p>
+<p>Every action except deleting a session is written to Session History
+(<a href="#43-session-history">chapter 4.3</a>). Deleting a session deletes its history too.</p>
+<h3>Editing a session: name, instrument, reference gas, acid temperature</h3>
+<p>Click <strong>Edit</strong>.</p>
+<p><img class="guide-img-wide" loading="lazy" height="473" width="748" alt="The Edit session window for &quot;Synthetic Data&quot;. On the left is Reference gas, with a short warning that a change forces a full reprocessing and deletes standardised data, and boxes for δ13C (VPDB), δ18O (VSMOW) and δ17O (VSMOW). On the right are Session name with a text box, Mass spectrometer with a menu showing &quot;Demo&quot;, and Acid reaction temperature with a box showing 90. At the bottom are Manage scans on the left and Save, greyed out, and Close on the right." src="guide-images/sessions-editor-edit-session-wide.png" /></p>
+<p>Change what you need, then click <strong>Save</strong>. It saves everything you changed, and it stays
+greyed out until you have changed something. <strong>Close</strong> only closes the window and
+forgets anything you did not save.</p>
+<ul>
+<li><strong>Session name.</strong> Only the name changes; nothing is recalculated. A blank name, or a
+  name another session already uses, is refused.</li>
+<li><strong>Mass spectrometer.</strong> If your lab has several instruments, the session moves to that
+  instrument's group in the session list. Nothing is recalculated, and the session keeps
+  its own reference gas and acid temperature. New instruments are added in <strong>Settings</strong>
+  (<a href="#7-settings">chapter 7</a>) or in the import window.</li>
+<li><strong>Reference gas.</strong> δ¹³C (VPDB) and δ¹⁸O (VSMOW) of the reference gas. While you have
+  changed one of them, the button reads <strong>Save &amp; reprocess</strong>. The session's values are
+  recalculated with the new gas and its standardised values are cleared, so run
+  standardisation again (<a href="#5-the-standardization-page">chapter 5</a>). δ¹⁷O is not used for
+  carbonate or CO₂ data.</li>
+<li><strong>Acid reaction temperature.</strong> The temperature of the acid bath in °C, used by
+  the δ¹⁸O acid fractionation correction
+  (<a href="#51-the-δ¹⁸o-acid-fractionation-correction">chapter 5.1</a>). Nothing is recalculated
+  at that moment. If the session has no temperature, the box is empty and 90 °C is used.</li>
+</ul>
+<p><strong>Manage scans</strong>, at the bottom left, opens the scan sets of this session
+(<a href="#61-scans-and-the-pressure-baseline-correction">chapter 6.1</a>).</p>
+<p>A new session gets its reference gas and acid temperature from its mass
+spectrometer when you import it (<a href="#3-importing-data">chapter 3</a>). Use this window
+when one session needs different values, for example after a new reference gas
+tank.</p>
+<h3>Deactivating a session</h3>
+<p><strong>Deactivate</strong> sets a session aside without deleting anything, for example a failed run
+you want to keep.</p>
+<ul>
+<li>It turns pale grey in the session list and stays visible on the Explore page, where
+  you can still look at it.</li>
+<li>It is left out of the Standardization page, of <strong>Export report</strong> and of the
+  <strong>Existing session</strong> list in the import window.</li>
+<li>Nothing is deleted or recalculated.</li>
+</ul>
+<p>While a session is deactivated the button is blue and reads <strong>Activate</strong>. Click it to
+bring the session back. Both changes are written to Session History
+(<a href="#43-session-history">chapter 4.3</a>).</p>
+<h3>Fixing a mislabelled sample</h3>
+<p>A replicate has the wrong sample name, for example a typo or the wrong standard.</p>
+<ol>
+<li>Tick the mislabelled replicate, or several that need the same name.</li>
+<li>Click <strong>Rename</strong>.</li>
+<li>Type the correct name, or pick one of the session's sample names from the list
+   under the box.</li>
+<li>Click <strong>Rename</strong> in the window.</li>
+<li>Run standardisation again.</li>
+</ol>
+<p><img loading="lazy" height="700" width="1300" alt="The Sessions Editor with replicate 4, &quot;ETH 1&quot;, ticked. The Move, Rename and Delete buttons after &quot;Replicates:&quot; are active and the session buttons are greyed out. The &quot;Rename 1 replicate&quot; window is open with &quot;ETH 2&quot; typed in the New sample name box and the Cancel and Rename buttons below it." src="guide-images/sessions-editor-rename-sample.png" /></p>
+<p>What happens:</p>
+<ul>
+<li>DELTALab takes a safety backup and renames the replicate's raw acquisitions.</li>
+<li>The replicate's values stay as they were, and the session gets a red flag.</li>
+<li>Exclusions are kept.</li>
+<li><strong>A name that matches a reference material makes the replicate a standard</strong>,
+  so it can be used as a standard. A name that matches none makes it a sample.</li>
+<li>A replicate stays a replicate of its own, even when its new name is the same as the
+  replicate just before or after it.</li>
+</ul>
+<p><strong>Don't</strong> fix a sample name by editing the database tables directly. That leaves
+the raw acquisitions unchanged, so the next recalculation brings the wrong name
+back. It also skips Session History and does not mark the standardisation as out
+of date.</p>
+<h3>Moving replicates to another session</h3>
+<p>Use <strong>Move</strong> when replicates were imported into the wrong session.</p>
+<ol>
+<li>Tick the replicates.</li>
+<li>Click <strong>Move</strong>.</li>
+<li>Pick the <strong>Destination session</strong>.</li>
+<li>Click <strong>Move</strong> in the window.</li>
+<li>Run standardisation again for <strong>both</strong> sessions.</li>
+</ol>
+<p><img loading="lazy" height="700" width="1300" alt="The Sessions Editor with replicates 2 and 3 ticked in the session &quot;Synthetic Data&quot;. The &quot;Move 2 replicates&quot; window is open. It has a Destination session menu set to &quot;Demo run 2&quot; and the Cancel and Move buttons." src="guide-images/sessions-editor-move.png" /></p>
+<p>Good to know:</p>
+<ul>
+<li><strong>The destination must already exist.</strong> To put replicates into a new session,
+  use <strong>Split</strong> instead.</li>
+<li>Moved replicates keep their values and their exclusions. Nothing is recalculated
+  until you standardise.</li>
+<li>Both sessions get a red flag.</li>
+<li>Moved replicates keep the background correction they had. If the two sessions use
+  different corrections, run the Negative Background Correction for the destination
+  session (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+<li>Files and notes attached to a replicate move with it.</li>
+<li>A session you move every replicate out of disappears from the list.</li>
+</ul>
+<h3>Splitting a session</h3>
+<p>Sometimes one session covers more than one real run: an overnight gap, an
+instrument re-tune, a new reference gas. <strong>Split</strong> turns it into two or three
+sessions. No measured number changes, only which session each replicate belongs to.</p>
+<p><strong>Split</strong> needs at least two replicates in the session.</p>
+<p><img class="guide-img-wide" loading="lazy" height="708" width="1036" alt="The Split session window for &quot;Synthetic Data&quot;. A plot of all replicates is divided into three shaded parts by two vertical lines. Four areas are marked in red and numbered: 1 the round handle on top of the first cut line, 2 the small × next to the handle of the second cut, 3 the three part cards under the plot, named &quot;Synthetic Data&quot;, &quot;Demo run 2&quot; and &quot;Demo run 3&quot;, each with its number of unknowns and reference materials and its date range, 4 the Split button." src="guide-images/sessions-editor-split-wide.png" /></p>
+<p><em>Marked in red: <strong>1</strong> a cut and its handle, <strong>2</strong> the × that removes a cut,
+<strong>3</strong> the part cards, <strong>4</strong> the Split button.</em></p>
+<ol>
+<li>Click <strong>Split</strong>. The window shows the session's plot.</li>
+<li><strong>Click the plot where a new session should start.</strong> A line appears <strong>(1)</strong>.
+   You can place up to two cuts, which gives three sessions. A cut always falls
+   between two replicates.</li>
+<li>Adjust the cuts:<ul>
+<li><strong>drag the handle</strong> on top of a line to move the cut;</li>
+<li>hover the handle and click the <strong>× (2)</strong> to remove the cut.</li>
+</ul>
+</li>
+<li>Check the <strong>part cards (3)</strong>. Each part has its own colour, on the plot and
+   on its card. A card shows the part's name, its number of unknowns and reference
+   materials, and its first and last date.</li>
+<li>Name the new parts: click a name to edit it. The first part keeps the
+   original session's name.</li>
+<li>Click <strong>Split (4)</strong> at the bottom of the window. DELTALab takes a safety backup
+   first.</li>
+</ol>
+<p>Good to know:</p>
+<ul>
+<li>The buttons on the plot work as on the Explore page
+  (<a href="#4-the-explore-page">chapter 4</a>). <strong>Date &amp; Time</strong> helps you find a gap in
+  time; <strong>Time Normalized</strong> spaces the replicates evenly, which makes a cut
+  easier to place.</li>
+<li>The plot follows the isotope system chosen in the top bar.</li>
+<li>If a name is blank or already in use, the card says so in red and the <strong>Split</strong>
+  button stays greyed out until you fix it.</li>
+<li><strong>A dotted line under the reference-material count</strong> means the part has fewer than
+  three different standards. On its own it may not have enough standards for a fit. You
+  can still split, and standardise the part together with other sessions.</li>
+<li>To rename the first part, use <strong>Edit</strong> after the split.</li>
+</ul>
+<p><strong>What the new sessions keep:</strong></p>
+<ul>
+<li>every replicate's raw values, exactly as they were;</li>
+<li>exclusions;</li>
+<li>the background correction, with its own copy of any scan set the session
+  used. Editing one part's scan set later does not change the others;</li>
+<li>the reference gas, the mass spectrometer and the acid reaction temperature.</li>
+</ul>
+<p><strong>What they do not keep:</strong> the standardisation. Every part, including the one
+that kept the original name, shows "—" for Δ₄₇ and must be standardised again.
+The old fit described the whole session, not its parts.</p>
+<p>The background correction is copied, not fitted again. If a part should have its
+own, for example because it now covers a single reference gas, run the Negative
+Background Correction for that session (<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<h3>Merging sessions</h3>
+<p><strong>Merge</strong> is Split the other way round. It joins other sessions into the one that is
+open, for example a run that was imported in two parts. The open session is the
+<strong>target</strong>: it keeps its name and its settings. The sessions you tick are the
+<strong>sources</strong>: their replicates move into the target and the source sessions disappear.</p>
+<ol>
+<li>Open the target session and click <strong>Merge</strong>. The window shows the plot of the
+   session and a list called <strong>Add sessions</strong>.</li>
+<li><strong>Tick the sessions to add.</strong> Click anywhere on a row. The plot draws the replicates
+   of every ticked session and, when the sessions do not overlap in time, shades each
+   one in the colour of its card.</li>
+<li>Check the <strong>cards</strong> under the list: one for the target, one for each ticked session,
+   and a <strong>Result</strong> card with the totals.</li>
+<li>Click <strong>Merge</strong>. DELTALab takes a safety backup first.</li>
+</ol>
+<p>After the merge a line under the buttons tells you what was done, and the history of
+the target shows a <strong>Merge</strong> entry.</p>
+<p>Good to know:</p>
+<ul>
+<li><strong>Only sessions that fit are offered.</strong> A session must come from the same
+  instrument, use the same reference gas and belong to the same isotope system as the
+  target. A line under the list says how many other sessions cannot be merged; hover it
+  to see why. If a reference gas has a typo, fix it with <strong>Edit</strong> first.</li>
+<li><strong>The target keeps its settings.</strong> Every replicate that moves in is recalculated
+  under the target's reference gas and background correction, exactly as with <strong>Move</strong>.
+  A source that used another background correction gets the target's. If needed, run
+  the Negative Background Correction again
+  (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+<li><strong>The sources disappear.</strong> Their attachments and scan sets come along. Their history
+  stays in the database.</li>
+<li><strong>Run standardisation again</strong> for the merged session. Its old fit does not cover the
+  new replicates.</li>
+<li>If the sessions overlap in time, the plot is not shaded by session and a note says so.</li>
+</ul>
+<h3>Deleting replicates or a session</h3>
+<p>Both are permanent. DELTALab takes a safety backup first; restoring that backup
+is the only way back (<a href="#8-backups-restore-and-updates">chapter 8</a>).</p>
+<p><strong>To leave a replicate out of the calculations but keep it, exclude it instead</strong>
+(<a href="#41-checking-raw-data-and-excluding-bad-measurements">chapter 4.1</a>). To set a whole
+session aside, use <strong>Deactivate</strong>.</p>
+<p><strong>Delete replicates</strong></p>
+<ol>
+<li>Tick the replicates.</li>
+<li>Click <strong>Delete</strong> after "Replicates:". The window lists their sample names.</li>
+<li>Type <code>DELETE</code> in the box.</li>
+<li>Click <strong>Delete permanently</strong>.</li>
+</ol>
+<p>The replicates and their raw acquisitions are removed. The other replicates keep their
+values and the session gets a red flag, so run standardisation again. Replicates on
+either side of a deleted one stay separate, even if they have the same sample name. If
+you delete every replicate, the session disappears from the list.</p>
+<p><strong>Delete the session</strong></p>
+<ol>
+<li>Clear any ticks and click <strong>Delete</strong> after "Session:".</li>
+<li>Type the session's name exactly as shown.</li>
+<li>Click <strong>Delete permanently</strong>.</li>
+</ol>
+<p>This removes the session's replicates and raw acquisitions, its scan sets, its
+attached files and its Session History.</p>
+<hr />
+</section>
+<section class="chapter" id="61-scans-and-the-pressure-baseline-correction">
+<h2>6.1 Scans and the pressure-baseline correction</h2>
+<p>You only need this chapter if you use the <strong>scan-based</strong> method on the Negative
+Background card. It uses <strong>scan sets</strong>: 1 to 6 HV scans grouped together. DELTALab
+fits the m/z 47 (and 48) background against the m/z 44 intensity across them (the
+pressure-baseline method of Bernasconi et al., 2013).</p>
+<p><strong>Where:</strong> <strong>Sessions Editor</strong> → click a session → <strong>Edit</strong> → <strong>Manage scans</strong>, at the
+bottom left of the window. A scan set belongs to one session. The session already knows its instrument, so you are not
+asked for one.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Create a set.</strong> Under <strong>New set</strong> (bottom left), click <strong>Choose files</strong> and pick
+   1–6 <code>.scn</code> files. Type a name if you like, then click <strong>Create set</strong>.</li>
+<li><strong>Open the set.</strong> Click it in the list on the left. Use the <strong>m/z 44</strong> to <strong>m/z
+   49</strong> buttons to see each cup's raw trace.</li>
+<li>
+<p><strong>Set the windows by dragging on the plot.</strong> There are no number fields.</p>
+<ul>
+<li><strong>On-peak window (mass 44):</strong> drag across the flat top of the m/z 44 peak.
+  <strong>Auto peak</strong> makes a first guess; move it to the flat middle.</li>
+<li><strong>Background windows (mass 47, and mass 48 for Dual Clumped):</strong> one or two
+  windows per mass, in the flat baseline on either side of the peak. <strong>Auto
+  windows</strong> makes a first guess, but <strong>always check it</strong>. Choosing the baseline
+  is a scientific judgement. <strong>Clear left</strong> and <strong>Clear right</strong> remove a window.</li>
+<li>Masses 45, 46 and 49 are for viewing only.</li>
+<li>To zoom in on an area of this plot, hold Option (Alt on Windows) and drag a
+  rectangle over it.</li>
+</ul>
+<p><img loading="lazy" height="454" width="760" alt="The Manage scans window. On the left, &quot;Scan set 1&quot; is selected, with m/z 47 fit Linear and m/z 48 fit Quadratic. On the right, the m/z 47 trace of four scans plotted against high voltage. A shaded band marks a background window on the flat baseline just left of the peak. Below the plot are the Auto windows and Clear left buttons, the hint &quot;or drag left/right of the peak to set a background window&quot;, and the Close and Save buttons." src="guide-images/scan-windows.png" /></p>
+<p><em>The m/z 47 view. The shaded band left of the peak is a background window;
+drag on the plot to move it or add one on the right.</em></p>
+</li>
+<li>
+<p><strong>Check the fit.</strong> Click <strong>Fit</strong> (next to the mass buttons) to see
+   background against m/z 44 intensity, with the fitted line. Choose <strong>Linear</strong> or
+   <strong>Quadratic</strong> for each mass; the plot updates as you choose. Click <strong>Save</strong>.</p>
+</li>
+<li><strong>Use it.</strong> On the Standardization page, pick the set(s) on the Negative
+   Background card and click <strong>Apply</strong>.</li>
+</ol>
+<p>If you change a fit later, it is used the next time the session is processed. You
+cannot delete a scan set while a session still uses it.</p>
+<hr />
+</section>
+<section class="chapter" id="7-settings">
+<h2>7. Settings</h2>
+<p><strong>Settings</strong> holds the values your whole lab shares: the reference materials, your
+instruments, the physical constants, the temperature calibrations and the acid
+fractionation minerals. It also holds a few display choices and the functions for your
+databases and backups.</p>
+<p>The page is one long list of sections. From top to bottom:</p>
+<ol>
+<li>Reference material</li>
+<li>Mass spectrometers</li>
+<li>Computational variables and Temperature calibrations, side by side</li>
+<li>δ¹⁸O Acid Fractionations</li>
+<li>Display preferences and Additional Functions, side by side</li>
+</ol>
+<p><strong>Changing a value here recalculates nothing.</strong> A changed value is used the next time
+you run the step that needs it:</p>
+<table>
+<thead>
+<tr>
+<th>You change</th>
+<th>It is used by</th>
+<th>From when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A standard's accepted values</td>
+<td>Standardization Protocol, Bulk Standardization</td>
+<td>the next time you run them</td>
+</tr>
+<tr>
+<td>A standard's group (Neg. Bkg eval.)</td>
+<td>the background minimizer</td>
+<td>the next time you run it</td>
+</tr>
+<tr>
+<td>A standard's Show in plots boxes</td>
+<td>the plots and tables of the Explore page</td>
+<td>at once</td>
+</tr>
+<tr>
+<td>A temperature calibration</td>
+<td>Temperature Conversion</td>
+<td>the next time you run it</td>
+</tr>
+<tr>
+<td>A mineral's constants</td>
+<td>δ¹⁸O Acid Fractionation Correction; calcite is also used by Bulk Standardization</td>
+<td>the next time you run them</td>
+</tr>
+<tr>
+<td>A computational variable</td>
+<td>the calculation of the raw values</td>
+<td>the next time a session is imported or recalculated</td>
+</tr>
+<tr>
+<td>A mass spectrometer's values</td>
+<td>new sessions</td>
+<td>sessions you import from now on</td>
+</tr>
+</tbody>
+</table>
+<p>The processing steps are described in <a href="#5-the-standardization-page">chapter 5</a>.</p>
+<h3>Reference material</h3>
+<p>The table of your standards and their accepted values.</p>
+<p><img loading="lazy" height="396" width="1288" alt="The Reference material section of Settings. The table has the columns Edit, Marker, Name, δ13C VPDB, δ18O VPDB, Δ47 CDES, Δ48 CDES, Neg. Bkg eval. and Show in plots, with the rows 1000C, 25C, ETH 1, ETH 2 and ETH 3. Four areas are marked in red and numbered: 1 the Add standard button at the top right, 2 the column of pencil icons, 3 the Neg. Bkg eval. column with a menu in each row, 4 the Show in plots column with the boxes Clumped, Dual and Bulk in each row." src="guide-images/settings-reference-material.png" /></p>
+<p><em>Marked in red: <strong>1</strong> Add standard, <strong>2</strong> the pencils, <strong>3</strong> the Neg. Bkg eval.
+menus, <strong>4</strong> the Show in plots boxes.</em></p>
+<ul>
+<li><strong>Δ₄₇ CDES</strong> and <strong>Δ₄₈ CDES</strong> are the accepted values the Standardization
+  Protocol fits to.</li>
+<li><strong>δ¹³C VPDB</strong> and <strong>δ¹⁸O VPDB</strong> are the accepted values Bulk Standardization
+  fits to. δ¹⁸O is the carbonate value
+  (<a href="#51-the-δ¹⁸o-acid-fractionation-correction">chapter 5.1</a>).</li>
+<li>A value shown as "—" is empty: the standard has no accepted value for that
+  step. The equilibrated gases, for example, have no δ¹³C or δ¹⁸O.</li>
+</ul>
+<p><strong>Neg. Bkg eval. (3)</strong> puts the standard in a group: Gas group 1–4, Carbonates
+group 1–4, or "—" for none. The background minimizer assumes all standards in a
+group share the same true Δ₄₇. The choice is saved as soon as you make it.</p>
+<p><strong>Show in plots (4)</strong> has one box each for Clumped, Dual and Bulk. The boxes are saved
+as soon as you tick them.</p>
+<ul>
+<li>A ticked box means the standard is drawn, and counted as a standard, on that
+  system's Explore page (<a href="#4-the-explore-page">chapter 4</a>). <strong>Bulk</strong> is for the δ¹³C and
+  δ¹⁸O tabs of both systems.</li>
+<li>The boxes do <strong>not</strong> decide which standards are used in a fit. You choose the
+  standards on the Standardization page.</li>
+</ul>
+<p><strong>To edit a standard,</strong> click its pencil <strong>(2)</strong>.</p>
+<p><img class="guide-img-wide" loading="lazy" height="589" width="528" alt="The Edit standard window for ETH 1. It has a Name box, boxes for δ13C VPDB, δ18O VPDB, Δ47 CDES and Δ48 CDES, a row of six colours with yellow chosen, a row of six marker shapes with the upward triangle chosen, a red Delete standard button on the left, and Cancel and Save on the right." src="guide-images/settings-edit-standard-wide.png" /></p>
+<ul>
+<li>Change the name, the four values, the <strong>Color</strong> and the <strong>Marker</strong> shape, then
+  click <strong>Save</strong>. Leave a value empty if the standard has none.</li>
+<li><strong>Delete standard</strong> removes it after you confirm.</li>
+</ul>
+<p><strong>To add a standard,</strong> click <strong>Add standard (1)</strong>. The same window opens,
+empty. Type a name, fill in the values you have and click <strong>Save</strong>. Nothing is
+added until you save, so <strong>Cancel</strong> leaves the table as it was. A name is
+required, and a name another standard already uses is refused. The new
+standard's <strong>Show in plots</strong> boxes start empty, so tick the systems you use it in.</p>
+<p><strong>How a sample name is matched to a standard.</strong> A replicate counts as a
+standard when its sample name is the standard's name:</p>
+<ul>
+<li>capitals do not matter;</li>
+<li>a space in the standard's name may also be a hyphen, an underscore or nothing:
+  "ETH 1" matches <code>ETH 1</code>, <code>ETH-1</code>, <code>ETH_1</code> and <code>eth1</code>;</li>
+<li>a short replicate label may follow, after a space, hyphen or underscore: a
+  one- or two-digit number, also written with <code>run</code>, <code>rep</code>, <code>r</code> or <code>#</code>, or a
+  single letter. "ETH 1" matches <code>ETH 1 rep2</code>, <code>ETH-1 #3</code> and <code>ETH 1 a</code>.</li>
+</ul>
+<p>Anything else is a sample: <code>ETH 10</code>, <code>ETH 1 dup</code> and <code>My ETH 1</code> do not match
+"ETH 1". Name your standards the way they are written in your data. After a
+standardisation, the result box lists the names that were matched
+(<a href="#5-the-standardization-page">chapter 5</a>).</p>
+<h3>Mass spectrometers</h3>
+<p>Your lab's instruments. They appear in the import window and group the session
+list. Each instrument has its own <strong>δ¹³C ref</strong>, <strong>δ¹⁸O ref</strong> and <strong>Acid temp</strong>,
+because each one has its own reference gas tank and acid bath. There is no
+lab-wide default: every session belongs to an instrument and takes its values
+from it. The first instrument was created when you first started DELTALab.</p>
+<p><img loading="lazy" height="236" width="1288" alt="The Mass spectrometers section of Settings, with an Add button at the top right. The table has the columns Edit, Name, δ13C ref (VPDB, ‰), δ18O ref (VSMOW, ‰), δ17O ref (VSMOW, ‰) and Acid temp (°C), with the rows Demo and Ibex." src="guide-images/settings-mass-specs.png" /></p>
+<ul>
+<li><strong>Add</strong> opens a window with the name and the values (the temperature starts at 90 and
+  the others at 0). All of them are required. <strong>δ¹⁷O ref</strong> is not used for carbonate or
+  CO₂ data, so leave it at 0.</li>
+<li><strong>A pencil</strong> edits the name and the values. A value cannot be left empty.</li>
+<li><strong>Changed values apply to sessions you import from now on.</strong> A session copies
+  the values when it is created and keeps them. To change a session that already
+  exists, use the Sessions Editor (<a href="#6-the-sessions-editor">chapter 6</a>).</li>
+<li><strong>A changed name</strong> is changed for the instrument's sessions too.</li>
+<li><strong>Delete mass spec</strong>, in the Edit window, is refused while any session belongs to the
+  instrument. Move those sessions to another instrument in the Sessions Editor first.</li>
+</ul>
+<h3>Computational variables</h3>
+<p>The four physical constants used to calculate the raw values: <strong>¹⁷O/¹⁶O
+(VSMOW)</strong>, <strong>¹⁸O/¹⁶O (VSMOW)</strong>, <strong>¹³C/¹²C (VPDB)</strong> and <strong>λ</strong>. They apply to every
+session.</p>
+<p><img loading="lazy" height="345" width="1288" alt="The Computational variables and Temperature calibrations sections of Settings, side by side. Computational variables is a narrow table with the columns Edit, Variable and Value and four rows: 17O/16O (VSMOW), 18O/16O (VSMOW), 13C/12C (VPDB) and λ. Temperature calibrations has an Add equation button and a table with the columns Edit, Name and Equation and three rows: &quot;OGLS23 — Daëron &amp; Vermeesch (2024)&quot;, &quot;INTERCARBS — Anderson et al. (2021)&quot; and &quot;Fiebig et al. (2024)&quot;, each with its equation for Δ47 written out." src="guide-images/settings-variables-calibrations.png" /></p>
+<p>Click a pencil, type the new value and click <strong>Save</strong>. Saving recalculates
+nothing. The new value is used the next time a session is imported or
+recalculated, so sessions processed before and after the change no longer use
+the same constants. Change these only if you know why.</p>
+<h3>Temperature calibrations</h3>
+<p>The list of Δ→T equations offered by the Temperature Conversion card, beside the
+computational variables. The <strong>Equation</strong> column shows each one as DELTALab will use
+it.</p>
+<p>A new install includes three Δ₄₇ calibrations:</p>
+<ul>
+<li>OGLS23 (Daëron &amp; Vermeesch, 2024)</li>
+<li>INTERCARBS (Anderson et al., 2021)</li>
+<li>Fiebig et al. (2024)</li>
+</ul>
+<p><strong>They are only a starting set.</strong> You can change or delete them. Only <strong>Restore
+Default Settings</strong> brings the shipped ones back.</p>
+<p>Click <strong>Add equation</strong> to add one, or a pencil to edit one. Nothing is stored
+until you click <strong>Save</strong>. The window asks for a <strong>Name</strong> and a <strong>Model</strong>.</p>
+<p><strong>Model: Polynomial in 1/T</strong></p>
+<p><img class="guide-img-wide" loading="lazy" height="711" width="748" alt="The Edit calibration window for &quot;OGLS23 — Daëron &amp; Vermeesch (2024)&quot;. The Model menu is set to &quot;Polynomial in 1/T&quot;. Below are three boxes: Slope (× 10⁶/T²), 1/T term (× 10³/T) and Intercept. The Uncertainty menu is set to &quot;Full covariance matrix&quot;, followed by six boxes: Var(intercept), Var(1/T term), Var(slope), Cov(intercept, 1/T term), Cov(intercept, slope) and Cov(1/T term, slope). A red Delete calibration button is on the left, Cancel and Save on the right." src="guide-images/settings-edit-calibration-polynomial-wide.png" /></p>
+<ul>
+<li>Type the <strong>Slope</strong>, the <strong>1/T term</strong> and the <strong>Intercept</strong>. The slope is the
+  number in front of 10⁶/T² and the 1/T term is the number in front of 10³/T. For
+  <code>Δ₄₇ = 0.0391×10⁶/T² + 0.154</code>, type 0.0391, 0 and 0.154.</li>
+<li><strong>Uncertainty</strong> says what the paper gives you:<ul>
+<li><strong>None:</strong> no calibration uncertainty.</li>
+<li><strong>Published 1σ per coefficient:</strong> type the <strong>Slope error</strong> and the
+  <strong>Intercept error</strong>.</li>
+<li><strong>Full covariance matrix:</strong> type the three variances and the three
+  covariances, in the same units as the coefficients. Each pair is typed
+  once.</li>
+</ul>
+</li>
+</ul>
+<p>The choice decides what <strong>Propagate calibration uncertainties</strong> can do on the
+Standardization page (<a href="#5-the-standardization-page">chapter 5</a>). Only a full
+covariance matrix gives a complete temperature uncertainty.</p>
+<p><strong>Model: Scaled theoretical curve</strong></p>
+<p><img class="guide-img-wide" loading="lazy" height="625" width="748" alt="The Edit calibration window for &quot;Fiebig et al. (2024)&quot;. The Model menu is set to &quot;Scaled theoretical curve&quot;. Below are a Scaling factor box with 1.038 and an Offset box with 0.1848, then &quot;Theoretical curve coefficients&quot; with one box each for 1/T, 1/T², 1/T³ and 1/T⁴, and the buttons &quot;+ Add term&quot; and &quot;− Remove last&quot;. A red Delete calibration button is on the left, Cancel and Save on the right." src="guide-images/settings-edit-calibration-scaled-wide.png" /></p>
+<ul>
+<li>Type the <strong>Scaling factor</strong> and the <strong>Offset</strong>. These are the two fitted
+  numbers.</li>
+<li>Type the <strong>Theoretical curve coefficients</strong>, one per power of 1/T, as plain
+  numbers (for 2.391×10⁷, type <code>23910000</code> or <code>2.391e7</code>). <strong>+ Add term</strong> and
+  <strong>− Remove last</strong> change the number of terms.</li>
+</ul>
+<p><strong>Delete calibration</strong>, in the Edit window, removes the equation.</p>
+<p>Temperature conversion uses Δ₄₇ only.</p>
+<h3>δ¹⁸O Acid Fractionations</h3>
+<p>The minerals offered by the δ¹⁸O Acid Fractionation Correction card, each with
+its reference and its <code>a</code>, <code>b</code> and <code>c</code> constants.
+<a href="#51-the-δ¹⁸o-acid-fractionation-correction">Chapter 5.1</a> explains how to turn a
+published equation into these three numbers.</p>
+<p><img loading="lazy" height="290" width="1288" alt="The δ18O Acid Fractionations section of Settings, with an Add button at the top right. The table has the columns Edit, Mineralogy, Reference, a (10⁶/T²), b (10³/T), c and Equation, and three rows: Calcite and Aragonite from Kim, Mucci &amp; Taylor (2007) and Magnesite from Das Sharma, Patil &amp; Gopalan (2002), each with its equation for 1000 ln α written out." src="guide-images/settings-acid-fractionations.png" /></p>
+<ul>
+<li>Calcite, aragonite and magnesite are included.</li>
+<li><strong>Add</strong> creates a new mineral; a pencil edits one. Type 0 for a term the
+  paper's equation does not have.</li>
+<li><strong>Delete mineral</strong>, in the Edit window, removes it. Samples that were assigned
+  to it go back to "—" on the Standardization page.</li>
+<li>Every mineral needs a reference. One shown as <strong>Missing</strong> was carried over from
+  an older version; edit it to add one.</li>
+<li><strong>Calcite is also used by Bulk Standardization</strong>, to convert the standards'
+  δ¹⁸O (<a href="#5-the-standardization-page">chapter 5</a>).</li>
+</ul>
+<h3>Display preferences</h3>
+<ul>
+<li><strong>Marker size:</strong> the size of the points in every plot, from 2 to 12.</li>
+<li><strong>Default environment:</strong> which isotope system DELTALab starts on: Clumped Isotopes or
+  Dual Clumped. Changing it does not switch the page you are on.</li>
+</ul>
+<h3>Additional Functions</h3>
+<p><img loading="lazy" height="175" width="1288" alt="The Display preferences and Additional Functions sections of Settings. Display preferences has a Marker size slider set to 5.0 and a Default environment menu set to Clumped Isotopes. Additional Functions has six buttons in two rows, Open database, New database and Export current, then Back up now, Restore backup and Rename database, and on the right, set apart by a line, Restore Default Settings." src="guide-images/settings-display-functions.png" /></p>
+<p><strong>Your databases.</strong> DELTALab works on one database at a time.</p>
+<ul>
+<li><strong>New database</strong> creates an empty database. Choose where to save it, with <strong>Browse…</strong>
+  or by pasting a full path, give it a <strong>Name</strong> and click <strong>Create</strong>. It never overwrites
+  a file that already exists.</li>
+<li><strong>Open database</strong> switches to another DELTALab database file. Choose it with
+  <strong>Browse…</strong>, or paste its full path, and click <strong>Open</strong>. A file that is not a DELTALab
+  database is refused.</li>
+<li><strong>Rename database</strong> changes the name shown in the status bar and on its backups. The
+  file on disk keeps its name.</li>
+</ul>
+<p>After <strong>New database</strong> or <strong>Open database</strong> the app reloads on the chosen database, and
+DELTALab starts on it next time too.</p>
+<p>Each database has its own sessions, Session History, attached files and reference
+material table. A new one starts with the shipped reference materials. The other
+settings on this page are shared by all your databases.</p>
+<p><strong>Backups.</strong></p>
+<ul>
+<li><strong>Back up now</strong> makes a backup at any moment.</li>
+<li><strong>Restore backup</strong> opens the list of this database's backups.</li>
+<li><strong>Export current</strong> saves a copy of the database you are using right now.</li>
+</ul>
+<p><a href="#8-backups-restore-and-updates">Chapter 8</a> explains when backups are made
+automatically, what an export contains and what a restore does.</p>
+<p><strong>Restore Default Settings</strong> resets the <strong>Reference material table, the computational
+variables and the temperature calibrations</strong> to the shipped values. Standards and
+calibrations you added or edited are lost.</p>
+<ul>
+<li>DELTALab asks you to confirm first and takes a safety backup, so you can undo it with
+  <strong>Restore backup</strong>.</li>
+<li>It does <em>not</em> change mass spectrometers (or their reference gas and acid temperature),
+  acid fractionation minerals, marker size, the default environment or your backups.</li>
+<li>It does not recalculate your sessions.</li>
+</ul>
+<hr />
+</section>
+<section class="chapter" id="8-backups-restore-and-updates">
+<h2>8. Backups, restore and updates</h2>
+<p>DELTALab keeps all your work in two files on your computer: the <strong>database</strong>
+(sessions, raw acquisitions, results, Session History, attached files, reference
+material table) and the <strong>settings file</strong> <code>Storage.json</code> (calibrations, minerals,
+constants, instruments, display choices). A backup is a copy of both, taken together.</p>
+<h3>Where your data is</h3>
+<p>Both files start in the DELTALab data folder:</p>
+<ul>
+<li><strong>macOS:</strong> <code>~/Library/Application Support/DELTALab/</code></li>
+<li><strong>Windows:</strong> <code>%APPDATA%\DELTALab\</code></li>
+</ul>
+<p>If you made or opened another database (<a href="#7-settings">chapter 7</a>), it stays where you
+put it. Hover over <strong>db:</strong> in the status bar to see its full path. <code>Storage.json</code> stays
+in the data folder.</p>
+<p>The backups are in a <code>backups</code> folder next to the database file, one folder per
+backup. A backup's folder is named after its date and time, for example
+<code>20261005-154214</code>, and holds <code>database.zip</code> and <code>Storage.json</code>.</p>
+<p>Updating or reinstalling DELTALab does not touch the data folder.</p>
+<h3>Automatic backups</h3>
+<p>DELTALab makes a backup by itself:</p>
+<ul>
+<li><strong>once a day</strong>, the first time you start the app that day. If an ordinary
+  backup from today already exists, none is added;</li>
+<li><strong>the first time you start a new version.</strong> This backup carries a label,
+  <code>&lt;old version&gt; → &lt;new version&gt;</code>, and is your way back if an update goes wrong;</li>
+<li><strong>the first time you open a database that day</strong>, with <strong>Open database</strong>;</li>
+<li><strong>just before an action that removes or reshapes data:</strong><ul>
+<li>deleting a session;</li>
+<li>deleting replicates;</li>
+<li>renaming the sample of replicates;</li>
+<li>splitting a session;</li>
+<li>importing an Easotope database;</li>
+<li><strong>Restore Default Settings</strong>;</li>
+<li>restoring a backup.</li>
+</ul>
+</li>
+</ul>
+<p>For each database, DELTALab keeps the newest <strong>5</strong> ordinary backups and, separately, the
+newest <strong>3</strong> labelled ones. A busy day of deletions can never push out an update
+backup, and the other way round.</p>
+<p>Backups and restores are not written to Session History
+(<a href="#43-session-history">chapter 4.3</a>).</p>
+<h3>Making a backup or a copy</h3>
+<p>Both buttons are in <strong>Settings → Additional Functions</strong> (<a href="#7-settings">chapter 7</a>).</p>
+<ul>
+<li><strong>Back up now</strong> makes a backup at any moment, for example before a risky change. It
+  is an ordinary backup: it is removed once five newer ones exist.</li>
+<li><strong>Export current</strong> saves a copy of the database and settings you are using right now,
+  as a file named <code>DELTALab-database-&lt;date and time&gt;.zip</code>. It holds <code>database.db</code> and
+  <code>Storage.json</code>.</li>
+</ul>
+<p>Keep an export anywhere you like: an external drive, a shared folder, or send it to a
+colleague. <strong>An export is never removed by DELTALab</strong>, unlike backups. Export a copy
+whenever you want to keep a state for good.</p>
+<h3>Restoring a backup</h3>
+<ol>
+<li>Go to <strong>Settings</strong> and click <strong>Restore backup</strong>. The window lists the backups of the
+   open database, newest first, with their date and size.</li>
+<li>Click <strong>Restore</strong> on the backup you want.</li>
+<li>Confirm. DELTALab reloads.</li>
+</ol>
+<p><img class="guide-img-wide" loading="lazy" height="346" width="588" alt="The Restore backup window for the database &quot;database&quot;. It lists three backups, newest first, each with its date, its size and a Restore button. The oldest has the label &quot;1.0.0 → 1.0.1&quot; next to its date. A Close button is at the bottom right." src="guide-images/restore-backup-wide.png" /></p>
+<p>What the list can tell you:</p>
+<ul>
+<li>A label such as <code>1.0.0 → 1.0.1</code> marks the backup taken before an update.</li>
+<li><strong>was "…"</strong> means the database had another name when the backup was made.</li>
+<li><strong>database not recorded</strong> marks a backup too old to say which database it belongs to.
+  Make sure it is the right one before you restore it; DELTALab asks you to check.</li>
+<li>A line at the bottom says how many backups of other databases in the same folder are
+  not shown. Open that database to restore them.</li>
+</ul>
+<p>What happens:</p>
+<ul>
+<li>The backup is checked first. A damaged backup is refused and nothing is
+  changed.</li>
+<li><strong>A safety backup of the current state is made</strong>, so a restore can always be
+  undone. It appears at the top of the list.</li>
+<li>The database <strong>and</strong> the settings are replaced by the backup's. Everything you
+  did after that backup is gone from the app: imports, processing, edits and
+  changed settings. If you work with several databases, remember that the settings are
+  shared by all of them.</li>
+</ul>
+<p>To undo a restore, restore the safety backup that was made just before it.</p>
+<h3>Using an exported copy</h3>
+<p>Use this to bring an exported copy back, or to move your data to another
+computer.</p>
+<ol>
+<li>Quit DELTALab.</li>
+<li>Unzip the export.</li>
+<li>Put its <code>database.db</code> and <code>Storage.json</code> in the data folder, in place of the
+   two files there. Keep the old ones somewhere else first if you may need them.</li>
+<li>Start DELTALab.</li>
+</ol>
+<p>Use a copy made with the same version of DELTALab, or an older one.</p>
+<p>To look at an exported database without replacing anything, unzip it and use <strong>Open
+database</strong>. That keeps your current settings.</p>
+<p><strong>To look inside a backup without DELTALab:</strong> double-click its <code>database.zip</code> to
+unzip it. The <code>database.db</code> inside is an SQLite database. Very old backups may
+hold a plain <code>database.db</code> instead of a zip; both kinds restore correctly.</p>
+<h3>Updates</h3>
+<p>DELTALab checks for a new version each time it starts. When there is one, a
+banner appears under the top bar.</p>
+<p><img loading="lazy" height="190" width="1300" alt="The top of the DELTALab window with the update banner under the top bar. Three areas are marked in red and numbered: 1 the text &quot;DELTALab 1.0.2 is available&quot; on the left, 2 the &quot;Update &amp; Restart&quot; button on the right, 3 the × next to it." src="guide-images/update-banner.png" /></p>
+<p><em>Marked in red: <strong>1</strong> the new version, <strong>2</strong> Update &amp; Restart, <strong>3</strong> close the
+banner.</em></p>
+<ul>
+<li><strong>Update &amp; Restart (2)</strong> downloads the new version, installs it and restarts
+  DELTALab. The banner shows "Downloading…" with a percentage while it works.</li>
+<li><strong>× (3)</strong> closes the banner if you want to update later. It comes back the
+  next time you start DELTALab.</li>
+<li>If your app is up to date, you see nothing.</li>
+<li>If the check or the installation fails, the banner says so and shows the
+  error.</li>
+<li>On a computer DELTALab is not built for, the banner says that automatic
+  updates are not available. Close it with <strong>×</strong>.</li>
+</ul>
+<p>Your data is not changed by an update. The first time the new version starts, it
+makes the labelled backup described above.</p>
+<p><strong>If an update goes wrong,</strong> go back to the version you had:</p>
+<ol>
+<li>Restore the backup labelled with the version you came from
+   (<strong>Settings → Restore backup</strong>).</li>
+<li>Quit DELTALab.</li>
+<li>Install that older version again. It is the one on the left of the arrow in
+   the label.</li>
+</ol>
+<p>Your data is then exactly as it was before the update. Anything you did in the
+new version is not in it; it is in the safety backup the restore made.</p>
+<blockquote>
+<p>DELTALab is built for Macs with Apple Silicon and for 64-bit Windows. Only some
+versions are also built for Intel Macs, and none for Windows on ARM. When the
+newest version was not built for your computer, there is nothing to update to
+and DELTALab says so.</p>
+</blockquote>
+<hr />
+<p><em>Developer documentation: see ARCHITECTURE.md and <code>.claude/rules/</code> in the source
+code.</em></p>
+</section>
+    </article>
+  </div>
+
+  <footer class="footer">
+    <a href="https://www.protiumms.com"><img class="protium-logo" src="protium-logo.svg" alt="Protium MS Ltd" width="48" height="48"></a>
+    <p class="credit">Developed by Mattia Tagliavento for <a href="https://www.protiumms.com">Protium MS Ltd</a></p>
+  </footer>
+
+  <!-- Visitor counter (GoatCounter, cookieless; the dashboard is private to Mattia).
+       The only third-party script on the site. -->
+  <script data-goatcounter="https://deltalab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

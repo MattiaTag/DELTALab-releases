@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Toolbar colour for browsers that read theme-color (Chrome/Edge/Firefox on Android):
+       the page background, since the black nav scrolls away. Safari 26 ignores it. -->
+  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+  <title>DELTALab — clumped isotope data processing software</title>
+  <meta name="description" content="Free desktop app for processing and standardising clumped isotope data (Δ47, Δ48, δ13C, δ18O). Imports Isodat, Qtegra and Easotope. macOS and Windows.">
+  <link rel="canonical" href="https://deltalab.protiumms.com/">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DELTALab — clumped isotope data processing software">
+  <meta property="og:description" content="Free desktop app for processing and standardising clumped isotope data (Δ47, Δ48, δ13C, δ18O). Imports Isodat, Qtegra and Easotope. macOS and Windows.">
+  <meta property="og:url" content="https://deltalab.protiumms.com/">
+  <meta property="og:site_name" content="DELTALab">
+  <meta property="og:image" content="https://deltalab.protiumms.com/social.png">
+  <meta property="og:image:alt" content="The DELTALab Explore page showing a Δ47 plot of standards and samples across a session.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="site.css?v=5ace37414c">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DELTALab",
+    "description": "Free desktop app for processing and standardising clumped isotope data (Δ47, Δ48, δ13C, δ18O). Imports Isodat, Qtegra and Easotope. macOS and Windows.",
+    "url": "https://deltalab.protiumms.com/",
+    "applicationCategory": "ScientificApplication",
+    "operatingSystem": "macOS, Windows",
+    "downloadUrl": "https://github.com/MattiaTag/DELTALab-releases/releases/latest",
+    "screenshot": "https://deltalab.protiumms.com/images/explore.png",
+    "author": {"@type": "Person", "name": "Mattia Tagliavento"},
+    "publisher": {"@type": "Organization", "name": "Protium MS Ltd", "url": "https://www.protiumms.com"},
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "GBP"}
+  }
+  </script>
+</head>
+<body>
+  <header class="nav">
+    <a class="nav-logo" href="./"><img src="logo-lockup.svg" alt="DELTALab" width="95" height="24"></a>
+    <a class="nav-link" href="#download">Download</a>
+    <a class="nav-link" href="guide.html">User guide</a>
+    <span class="nav-version" id="nav-version" hidden></span>
+  </header>
+  <main class="column">
+    <!-- Light page: the lockup with dark lettering; dark page: the one with white lettering. -->
+    <picture class="page-logo">
+      <source media="(prefers-color-scheme: dark)" srcset="logo-lockup.svg">
+      <img src="logo-lockup-on-light.svg" width="300" height="64" alt="The DELTALab logo: a blue triangle mark beside the name">
+    </picture>
+    <h1 class="page-title">Standardization, simplified.</h1>
+    <section class="hero">
+      <p class="sub"><strong>DELTALab</strong>, a new tool to standardize clumped (Δ₄₇) and dual clumped (Δ₄₇ &amp; Δ₄₈) isotope data.</p>
+      <div class="hero-shot">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="images/explore-dark-1300.png 1300w, images/explore-dark.png 2600w"
+                  sizes="(min-width: 1148px) 1100px, 100vw">
+          <img src="images/explore.png" width="2600" height="1400"
+               srcset="images/explore-1300.png 1300w, images/explore.png 2600w"
+               sizes="(min-width: 1148px) 1100px, 100vw"
+               alt="The DELTALab Explore page: the session list on the left, and a Δ47 plot of corrected standards and samples across a session.">
+        </picture>
+      </div>
+    </section>
+
+    <div class="about-row">
+      <h2>Main features:</h2>
+      <div class="about-card" id="download">
+        <div class="card download-card">
+          <p class="card-line" id="release-line">Latest release</p>
+          <a class="primary" id="primary-download" href="https://github.com/MattiaTag/DELTALab-releases/releases/latest">
+            <span id="primary-label">Download for macOS</span>
+            <span class="primary-sub" id="primary-sub">Apple silicon (M1 or later)</span>
+          </a>
+          <ul class="rows">
+            <li class="row" data-platform="apple-silicon" hidden>
+              <span>macOS, Apple silicon</span>
+              <a href="https://github.com/MattiaTag/DELTALab-releases/releases/latest" aria-label="Download DELTALab for macOS on Apple silicon, as a .dmg file">.dmg</a>
+            </li>
+            <li class="row" data-platform="windows">
+              <span>Windows, 64-bit</span>
+              <a href="https://github.com/MattiaTag/DELTALab-releases/releases/latest" aria-label="Download DELTALab for Windows, as an .exe installer">.exe</a>
+            </li>
+            <li class="row" data-platform="intel">
+              <span>macOS, Intel</span>
+              <a href="https://github.com/MattiaTag/DELTALab-releases/releases/latest" aria-label="Download DELTALab for macOS on Intel, as a .dmg file">.dmg</a>
+            </li>
+          </ul>
+          <p class="card-error" id="load-error" hidden>Couldn't load the latest version. The links open the releases page.</p>
+        </div>
+      </div>
+      <section class="about-text">
+        <ul>
+          <li><strong>You decide when to recalculate.</strong> Make every change a session needs, then process it once. A stale-session flag, a permanent Session History and a traffic light beside each reported value show what is ready to report and what is not.</li>
+          <li><strong>Room for your own records.</strong> Add notes and attach files, such as instrument logs or photos, to any replicate or history entry, so the context stays with the data.</li>
+          <li><strong>Broad compatibility.</strong> Reads Qtegra CSV exports, Isodat .did files and retrofit Easotope databases (including mass scans, for so the negative background correction without a 47.5 cup).</li>
+          <li><strong>Current methods, legacy option, your own settings.</strong> Standardise with the community’s current state-of-the-art approaches, or with Easotope’s transfer function to compare with earlier work. On top of these, add your own in-house standards, temperature calibrations, dual clumped equilibrium lines and δ<sup>18</sup>O acid fractionation equations.</li>
+          <li><strong>Full control over sessions.</strong> Rename, split, merge and reprocess sessions, and move replicates between them; every change is recorded.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="https://www.protiumms.com"><img class="protium-logo" src="protium-logo.svg" alt="Protium MS Ltd" width="62" height="62"></a>
+    <p class="credit">Developed by Mattia Tagliavento for <a href="https://www.protiumms.com">Protium MS Ltd</a></p>
+  </footer>
+
+  <script type="module" src="downloads.js?v=345beb4d5a"></script>
+  <!-- Visitor counter (GoatCounter, cookieless; the dashboard is private to Mattia).
+       The only third-party script on the site. -->
+  <script data-goatcounter="https://deltalab.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
